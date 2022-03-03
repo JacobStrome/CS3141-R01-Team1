@@ -1,5 +1,6 @@
-import logo from './logo.svg';
+import logo from './assets/TSPlogo.png';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <body>
+        <div></div>
+      </body>
     </div>
   );
 }
