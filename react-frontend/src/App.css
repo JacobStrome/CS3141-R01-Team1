@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+#site-logo {
+  width:40px;
+  display:inline-block;
+}
+
+#search-button{
+  background-color:rgb(255, 205, 0);
+}
+
+#search-icon{
+  color:black;
+}
