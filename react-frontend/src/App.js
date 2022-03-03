@@ -36,10 +36,162 @@ function App() {
           {/*Div for class search results*/}
           <div class="col-4">
 
+            <table>
+              <tr>
+                <th class="no-border"> Classes </th>
+              </tr>
+              <tr>
+                <td class="table-border">cs3xxx</td>
+              </tr>
+              <tr>
+                <td class="table-border">cs3xxx</td>
+              </tr>
+              <tr>
+                <td class="table-border">cs3xxx</td>
+              </tr>
+              <tr>
+                <td class="table-border">cs3xxx</td>
+              </tr>
+              <tr>
+                <td class="table-border">cs3xxx</td>
+              </tr>
+              <tr>
+                <td class="table-border">cs3xxx</td>
+              </tr>
+            </table>
           </div>
           {/*div for calendar*/}
           <div class="col-8">
-
+            <table>
+              <tr>
+                <th> </th>
+                <th class="no-border"> M </th>
+                <th class="no-border"> T </th>
+                <th class="no-border"> W </th>
+                <th class="no-border"> R </th>
+                <th class="no-border"> F </th>
+              </tr>
+              <tr>
+                <th class="no-border"> 8am </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 9am </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 10am </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 11am </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 12pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 1pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 2pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr> 
+              <tr>
+                <th class="no-border"> 3pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 4pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 5pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 6pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 7pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 8pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 9pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border"> 10pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+            </table>
           </div>
         </div>
       </body>
