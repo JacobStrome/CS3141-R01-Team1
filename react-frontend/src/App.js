@@ -24,11 +24,15 @@ function App() {
           </form>
           </li>
           </ul>
-          
         </div>
       </nav>
-        <div>
-        
+        <div class="row">
+          <div class="col-4">
+
+          </div>
+          <div class="col-8">
+
+          </div>
         </div>
       </body>
     </div>
