@@ -32,13 +32,13 @@ function App() {
           </ul>
         </div>
       </nav>
-        <div class="row">
+        <div class="row container p-4">
           {/*Div for class search results*/}
-          <div class="col-4">
+          <div class="col-4 classes-div">
 
             <table>
               <tr>
-                <th class="no-border"> Classes </th>
+                <th class="no-border gray-label"> Classes </th>
               </tr>
               <tr>
                 <td class="table-border">cs3xxx</td>
@@ -63,32 +63,22 @@ function App() {
           {/*div for calendar*/}
           <div class="col-8">
             <table>
+              <col class="time-label"></col>
+              <col class="calendar-col"></col>
+              <col class="calendar-col"></col>
+              <col class="calendar-col"></col>
+              <col class="calendar-col"></col>
+              <col class="calendar-col"></col>
               <tr>
-                <th> </th>
-                <th class="no-border"> M </th>
-                <th class="no-border"> T </th>
-                <th class="no-border"> W </th>
-                <th class="no-border"> R </th>
-                <th class="no-border"> F </th>
+                <th class="time-label"> </th>
+                <th class="no-border gray-label"> M </th>
+                <th class="no-border gray-label"> T </th>
+                <th class="no-border gray-label"> W </th>
+                <th class="no-border gray-label"> R </th>
+                <th class="no-border gray-label"> F </th>
               </tr>
               <tr>
-                <th class="no-border"> 8am </th>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-              </tr>
-              <tr>
-                <th class="no-border"> 9am </th>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-                <td class="table-border"> - </td>
-              </tr>
-              <tr>
-                <th class="no-border"> 10am </th>
+                <th class="no-border gray-label time-label"> 8am </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -96,7 +86,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 11am </th>
+                <th class="no-border gray-label time-label"> 9am </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -104,7 +94,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 12pm </th>
+                <th class="no-border gray-label time-label"> 10am </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -112,7 +102,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 1pm </th>
+                <th class="no-border gray-label time-label"> 11am </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -120,7 +110,23 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 2pm </th>
+                <th class="no-border gray-label time-label"> 12pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border gray-label time-label"> 1pm </th>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+                <td class="table-border"> - </td>
+              </tr>
+              <tr>
+                <th class="no-border gray-label time-label"> 2pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -128,7 +134,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr> 
               <tr>
-                <th class="no-border"> 3pm </th>
+                <th class="no-border gray-label time-label"> 3pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -136,7 +142,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 4pm </th>
+                <th class="no-border gray-label time-label"> 4pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -144,7 +150,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 5pm </th>
+                <th class="no-border gray-label time-label"> 5pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -152,7 +158,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 6pm </th>
+                <th class="no-border gray-label time-label"> 6pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -160,7 +166,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 7pm </th>
+                <th class="no-border gray-label time-label"> 7pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -168,7 +174,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 8pm </th>
+                <th class="no-border gray-label time-label"> 8pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -176,7 +182,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 9pm </th>
+                <th class="no-border gray-label time-label"> 9pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
@@ -184,7 +190,7 @@ function App() {
                 <td class="table-border"> - </td>
               </tr>
               <tr>
-                <th class="no-border"> 10pm </th>
+                <th class="no-border gray-label time-label"> 10pm </th>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
                 <td class="table-border"> - </td>
