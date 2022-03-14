@@ -1,0 +1,18 @@
+#site-logo {
+    width:40px;
+    display:inline-block;
+}
+
+#search-button{
+  background-color:rgb(255, 205, 0);
+  border-color:black;
+}
+
+#search-icon{
+    color:black;
+}
+
+#search-bar{
+  width:400px;
+  border-color: black;
+}
