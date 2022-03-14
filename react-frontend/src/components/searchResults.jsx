@@ -1,5 +1,5 @@
 import React from "react"
-import '../App.css'
+import './searchResults.css'
 
 class classRow extends React.Component{
 

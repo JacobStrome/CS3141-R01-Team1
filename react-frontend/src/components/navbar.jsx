@@ -1,7 +1,8 @@
-import logo from '../assets/TSPlogo.png';
-import '../App.css';
-import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
+import logo from '../assets/TSPlogo.png';
+import './navbar.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 export default class Navbar extends React.Component{
 
