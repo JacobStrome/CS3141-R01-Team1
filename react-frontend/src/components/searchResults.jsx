@@ -10,10 +10,18 @@ class classRow extends React.Component{
 export default class SearchResults extends React.Component {
 
     render(){
-      var tableRows = Object.keys(this.props.courses).map((key) =>
-        <tr>
-          <td class="table-border">{ this.props.courses[key].subject+this.props.courses[key].crse +' '+this.props.courses[key].title}</td>
-        </tr>
+      var tableRows = Object.keys(this.props.courses).filter((key)=> {
+        if ((this.props.courses[key].subject+this.props.courses[key].crse +' '+this.props.courses[key].title).toLocaleLowerCase().includes(this.props.searchTerm.toLocaleLowerCase())) return true
+        else return false
+      }).map((key) =>{
+        var courseString = this.props.courses[key].subject+this.props.courses[key].crse +' '+this.props.courses[key].title
+          return(
+            <tr>
+              <td class="table-border">{courseString}</td>
+            </tr>
+          )
+      }
+        
       )
       console.log(tableRows)
       return(

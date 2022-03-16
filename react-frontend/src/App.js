@@ -9,7 +9,7 @@ export class App extends React.Component{
 
   constructor(props){
     super(props)
-    this.state = {courses: []}
+    this.state = {courses: [], currentSearch : ""}
   }
 
   componentDidMount(){
@@ -17,20 +17,28 @@ export class App extends React.Component{
     axios.get('http://127.0.0.1:8000/api/classes').then((response) => {
       
       this.setState({
-      courses : response.data
+      courses : response.data,
+      currentSearch : this.state.currentSearch
       })
     });
-    
+    this.onSearchChange = this.onSearchChange.bind(this)
+  }
+
+  onSearchChange(event){
+    this.setState({
+      courses : this.state.courses,
+      currentSearch : event.target.value
+    })
   }
   render(){
     return(
       <div className="App">
       <body>
         {/*navbar*/}
-        <Navbar/>
+        <Navbar onChange = {this.onSearchChange}/>
         <div class="row container p-4">
           {/*Div for class search results*/}
-          <SearchResults courses = {this.state.courses}/>
+          <SearchResults courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
 
           {/*div for calendar*/}
           <Calendar/>

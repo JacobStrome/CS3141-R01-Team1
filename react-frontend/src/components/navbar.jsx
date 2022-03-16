@@ -19,7 +19,7 @@ export default class Navbar extends React.Component{
           <form class="d-flex">
             <div class="input-group">
               {/*search bar*/}
-              <input class="form-control" type="search" id="search-bar" placeholder="Search"></input>
+              <input class="form-control" type="search" id="search-bar" placeholder="Search" onChange={this.props.onChange}></input>
               {/*button*/}
               <button class="btn btn-primary" id="search-button" type="button">
               {/*button icon*/}
