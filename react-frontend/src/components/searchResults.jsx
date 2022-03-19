@@ -1,39 +1,83 @@
 import React from "react"
 import './searchResults.css'
+import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, Collapse} from '@mui/material'
+import { KeyboardArrowUp, KeyboardArrowDown} from '@mui/icons-material'
+class SubTable extends React.Component{
+  constructor(props){
+    super(props);
 
-class classRow extends React.Component{
-
+    this.state = {
+      open : false,
+    }
+  }
   render(){
-      return(<td className="table-border">{this.props.course.name}</td>)
+    return(
+      <React.Fragment>
+        <TableRow>
+          <TableCell>
+            <IconButton aria-label="expand row" size="small" onClick={()=> this.setState({open: !this.state.open})}>
+              {this.state.open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
+            </IconButton>
+          </TableCell>
+          <TableCell component="th" scope="row">
+            {this.props.subject}
+          </TableCell>
+          <TableCell/>
+        </TableRow>
+        {this.state.open && this.props.courses.map((course) =>(
+          <TableRow>
+              <TableCell/>
+              <TableCell>{course.subject+course.crse+" " + course.title}</TableCell>
+              <TableCell>{course.maxCredits}</TableCell>
+          </TableRow>
+          
+        ))}
+      </React.Fragment>
+    )
   }
 }
 export default class SearchResults extends React.Component {
 
-    render(){
-      var tableRows = Object.keys(this.props.courses).filter((key)=> {
+    constructor(props){
+      super(props);
+
+      this.getRowsFromKeys = this.getRowsFromKeys.bind(this)
+    }
+    getRowsFromKeys(){
+      var validCourses = Object.keys(this.props.courses).filter((key)=> {
         if ((this.props.courses[key].subject+this.props.courses[key].crse +' '+this.props.courses[key].title).toLocaleLowerCase().includes(this.props.searchTerm.toLocaleLowerCase())) return true
         else return false
-      }).map((key) =>{
-        var courseString = this.props.courses[key].subject+this.props.courses[key].crse +' '+this.props.courses[key].title
-          return(
-            <tr>
-              <td className="table-border">{courseString}</td>
-            </tr>
-          )
-      }
-
-
-        
+      })
+      var subjectDict = {};
+      validCourses.forEach((courseId) =>{
+        var course = this.props.courses[courseId]
+        if(!(course.subject in subjectDict))
+          subjectDict[course.subject] = []
+        subjectDict[course.subject].push(course)
+      })
+      var rows = Object.keys(subjectDict).map((key)=>
+        <SubTable subject={key} courses={subjectDict[key]}/>
       )
-      console.log(tableRows)
+      console.log(rows)
+      return rows
+    }
+    render(){
+      var tableRows = this.getRowsFromKeys()
+
       return(
-          <div className="col-4 classes-div">
-          <table>
-            <tr>
-              <th className="no-border gray-label"> Classes </th>
-            </tr>
-            {tableRows}
-          </table>
+        <div className="col-4 classes-div">
+          <TableContainer component={Paper} >
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell/>
+                  <TableCell>Course Title</TableCell>
+                  <TableCell align="right"> Credits </TableCell>
+                </TableRow>
+              </TableHead>
+              {tableRows}
+            </Table>
+          </TableContainer>
         </div>
       )
     }
