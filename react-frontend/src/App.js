@@ -14,13 +14,17 @@ export class App extends React.Component{
 
   componentDidMount(){
     axios.defaults.headers.get = 'Access-Control-Allow-Origin: *'
-    axios.get('http://127.0.0.1:8000/api/classes').then((response) => {
+    axios.get('http://127.0.0.1:8000/api/classes')
+    .then((response) => {
       
       this.setState({
       courses : response.data,
       currentSearch : this.state.currentSearch
       })
-    });
+
+    }).catch((error) => {
+      console.error(error)
+    })
     this.onSearchChange = this.onSearchChange.bind(this)
   }
 
@@ -33,17 +37,15 @@ export class App extends React.Component{
   render(){
     return(
       <div className="App">
-      <body>
         {/*navbar*/}
         <Navbar onChange = {this.onSearchChange}/>
-        <div class="row container p-4">
+        <div className="row container p-4">
           {/*Div for class search results*/}
           <SearchResults courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
 
           {/*div for calendar*/}
           <Calendar/>
         </div>
-      </body>
     </div>
     )
   }
