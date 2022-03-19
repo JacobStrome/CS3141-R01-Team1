@@ -13,7 +13,6 @@ export class App extends React.Component{
   }
 
   componentDidMount(){
-    axios.defaults.headers.get = 'Access-Control-Allow-Origin: *'
     axios.get('http://127.0.0.1:8000/api/classes')
     .then((response) => {
       
