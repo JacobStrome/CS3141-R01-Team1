@@ -1,44 +1,38 @@
-import React from "react"
+import React, {useState} from "react"
 import './searchResults.css'
 import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Menu} from '@mui/material'
 import { KeyboardArrowUp, KeyboardArrowDown} from '@mui/icons-material'
-class SubTable extends React.Component{
-  constructor(props){
-    super(props);
 
-    this.state = {
-      open : false,
-    }
-  }
-  render(){
-    return(
-      <React.Fragment>
+function SubjectTable(props){
+  const[open, setOpen] = useState(false)
+
+  return(
+    <React.Fragment>
+      <TableRow>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
+            {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {props.subject}
+        </TableCell>
+        <TableCell/>
+        <TableCell/>
+      </TableRow>
+      {open && props.courses.map((course) =>(
         <TableRow>
-          <TableCell>
-            <IconButton aria-label="expand row" size="small" onClick={()=> this.setState({open: !this.state.open})}>
-              {this.state.open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {this.props.subject}
-          </TableCell>
-          <TableCell/>
-          <TableCell/>
-
+            <TableCell>{course.subject+course.crse}</TableCell>
+            <TableCell>{course.title}</TableCell>
+            <TableCell/>
+            <TableCell>{course.maxCredits}</TableCell>
         </TableRow>
-        {this.state.open && this.props.courses.map((course) =>(
-          <TableRow>
-              <TableCell>{course.subject+course.crse}</TableCell>
-              <TableCell>{course.title}</TableCell>
-              <TableCell/>
-              <TableCell>{course.maxCredits}</TableCell>
-          </TableRow>
-          
-        ))}
-      </React.Fragment>
-    )
+        
+      ))}
+    </React.Fragment>
+  )
   }
-}
+
 export default class SearchResults extends React.Component {
 
     constructor(props){
@@ -81,7 +75,7 @@ export default class SearchResults extends React.Component {
           let crseB = parseInt(courseB.crse);
           return crseA - crseB;
         })
-        return (<SubTable subject={key} courses={subjectDict[key]}/>)
+        return (<SubjectTable subject={key} courses={subjectDict[key]}/>)
       }
         
       )
