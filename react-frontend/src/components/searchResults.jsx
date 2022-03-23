@@ -31,28 +31,30 @@ function CourseTable(props){
   return(
     <React.Fragment>
       <TableRow>
-          <TableCell>
-            <IconButton aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
-              {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
-            </IconButton>
-          </TableCell>
-            <TableCell>{props.course.subject+props.course.crse}</TableCell>
-            <TableCell>{props.course.title}</TableCell>
-            <TableCell>{props.course.maxCredits}</TableCell>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
+            {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
+          </IconButton>
+        </TableCell>
+        <TableCell>{props.course.subject+props.course.crse}</TableCell>
+        <TableCell colSpan={3}>{props.course.title}</TableCell>
+        <TableCell>{props.course.maxCredits}</TableCell>
       </TableRow>
       {open &&
         <TableHead>
         <TableRow>
-          <TableCell>Name CRN</TableCell>
-          <TableCell colSpan={2}>Times</TableCell>
+          <TableCell>Name</TableCell>
+          <TableCell>CRN</TableCell>
+          <TableCell colSpan={3}>Times</TableCell>
           <TableCell>Seats(offered/taken/open)</TableCell>
         </TableRow>
         </TableHead>
       }
       {open && props.course.sections.map((section)=> (
         <TableRow key={section.crn}>
-          <TableCell>{section.section} {section.crn}</TableCell>
-          <TableCell colSpan={2}>{getTimes(section)}</TableCell>
+          <TableCell>{section.section}</TableCell>
+          <TableCell>{section.crn}</TableCell>
+          <TableCell colSpan={3}>{getTimes(section)}</TableCell>
           <TableCell>{section.totalSeats}/{section.takenSeats}/{section.availableSeats}</TableCell>
         </TableRow>
       ))
@@ -72,10 +74,21 @@ function SubjectTable(props){
             {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
           </IconButton>
         </TableCell>
-        <TableCell colSpan={3} component="th" scope="row">
+        <TableCell colSpan={5} component="th" scope="row" align="center">
           {props.subject}
         </TableCell>
       </TableRow>
+
+      {open &&
+        <TableHead>
+        <TableRow>
+          <TableCell colSpan={2}>Course Number</TableCell>
+          <TableCell colSpan={3}>Course Title</TableCell>
+          <TableCell>Credits</TableCell>
+        </TableRow>
+        </TableHead>
+      }
+
       {open && props.courses.map((course) =>(
         <CourseTable key={course} course ={course}/>
       ))}
@@ -118,7 +131,7 @@ export default function SchedulerTable(props){
             <TableRow className = "table-head-row">
               {Object.keys(props.courses).length>0 
                 ? 
-                <TableCell>
+                <TableCell colSpan={3}>
                   <FormControl >
                     <InputLabel>Year</InputLabel>
                     <Select fullWidth value={year} label="Year" onChange={(event) => setYear(event.target.value)}>
@@ -126,11 +139,11 @@ export default function SchedulerTable(props){
                     </Select>
                   </FormControl>
                 </TableCell>
-                : <TableCell/>
+                : <TableCell colSpan={3}/>
               }
               {Object.keys(props.courses).length>0 
                 ?
-                <TableCell>
+                <TableCell colSpan={3}>
                   <FormControl >
                     <InputLabel>Semester</InputLabel>
                     <Select fullWidth value={semester} label="Semester" onChange={(event) => setSemester(event.target.value)}>
@@ -140,10 +153,8 @@ export default function SchedulerTable(props){
                     </Select>
                   </FormControl>
                 </TableCell>
-                : <TableCell/>
+                : <TableCell colSpan={3}/>
               }
-              <TableCell>Course Title</TableCell>
-              <TableCell > Credits </TableCell>
             </TableRow>
           </TableHead>
           {rows}
