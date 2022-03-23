@@ -3,6 +3,64 @@ import './searchResults.css'
 import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Menu} from '@mui/material'
 import { KeyboardArrowUp, KeyboardArrowDown, Subject} from '@mui/icons-material'
 
+
+function CourseTable(props){
+  const [open, setOpen] = useState(false)
+
+  const getTimes = (section) =>{
+    var outputString = ""
+    if(section.time.rrules.length ==0){
+      console.log("skipping")
+      return outputString
+    } 
+
+    const daysOfWeek = section.time.rrules[0].config.byDayOfWeek
+    daysOfWeek.forEach((day) =>{
+      console.log("counting days, " + day)
+      day.length>2 ? outputString = outputString.concat(day,","): outputString = outputString.concat(day[0],",")
+      console.log(outputString)
+    })
+    const startObject = section.time.rrules[0].config.start
+    const startTime = new Date(startObject.year, startObject.month, startObject.day, startObject.hour, startObject.minute, startObject.second)
+    const endObject = section.time.rrules[0].config.end
+    const endTime = new Date(endObject.year, endObject.month, endObject.day, endObject.hour, endObject.minute, endObject.second)
+    outputString = outputString.concat(` ${(startTime.getHours()%12 || 12)}:${startTime.getMinutes() || "00"}${startTime.getHours()/12>=1 ? "PM": "AM"}`)
+    outputString = outputString.concat(`-${(endTime.getHours()%12 || 12)}:${endTime.getMinutes() || "00"}${endTime.getHours()/12>=1 ? "PM": "AM"}`)
+    return outputString
+  }
+  return(
+    <React.Fragment>
+      <TableRow>
+          <TableCell>
+            <IconButton aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
+              {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
+            </IconButton>
+          </TableCell>
+            <TableCell>{props.course.subject+props.course.crse}</TableCell>
+            <TableCell>{props.course.title}</TableCell>
+            <TableCell>{props.course.maxCredits}</TableCell>
+      </TableRow>
+      {open &&
+        <TableHead>
+        <TableRow>
+          <TableCell>Name CRN</TableCell>
+          <TableCell colSpan={2}>Times</TableCell>
+          <TableCell>Seats(offered/taken/open)</TableCell>
+        </TableRow>
+        </TableHead>
+      }
+      {open && props.course.sections.map((section)=> (
+        <TableRow key={section.crn}>
+          <TableCell>{section.section} {section.crn}</TableCell>
+          <TableCell colSpan={2}>{getTimes(section)}</TableCell>
+          <TableCell>{section.totalSeats}/{section.takenSeats}/{section.availableSeats}</TableCell>
+        </TableRow>
+      ))
+      }
+    </React.Fragment>
+  )
+}
+
 function SubjectTable(props){
   const[open, setOpen] = useState(false)
 
@@ -19,18 +77,13 @@ function SubjectTable(props){
         </TableCell>
       </TableRow>
       {open && props.courses.map((course) =>(
-        <TableRow key={course.id}>
-            <TableCell>{course.subject+course.crse}</TableCell>
-            <TableCell colSpan={2}>{course.title}</TableCell>
-            <TableCell>{course.maxCredits}</TableCell>
-        </TableRow>
-        
+        <CourseTable key={course} course ={course}/>
       ))}
     </React.Fragment>
   )
 }
 
-export default function CourseTable(props){
+export default function SchedulerTable(props){
   const [year, setYear] = useState(2022);
   const [semester, setSemester] = useState("FALL")
 
@@ -90,7 +143,7 @@ export default function CourseTable(props){
                 : <TableCell/>
               }
               <TableCell>Course Title</TableCell>
-              <TableCell align="right"> Credits </TableCell>
+              <TableCell > Credits </TableCell>
             </TableRow>
           </TableHead>
           {rows}
