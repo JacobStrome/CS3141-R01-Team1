@@ -17,7 +17,7 @@ function CourseTable(props){
     const daysOfWeek = section.time.rrules[0].config.byDayOfWeek
     daysOfWeek.forEach((day) =>{
       console.log("counting days, " + day)
-      day.length>2 ? outputString = outputString.concat(day,","): outputString = outputString.concat(day[0],",")
+      day.includes("T") ? outputString = outputString.concat(day,","): outputString = outputString.concat(day[0],",")
       console.log(outputString)
     })
     const startObject = section.time.rrules[0].config.start
@@ -28,6 +28,8 @@ function CourseTable(props){
     outputString = outputString.concat(`-${(endTime.getHours()%12 || 12)}:${endTime.getMinutes() || "00"}${endTime.getHours()/12>=1 ? "PM": "AM"}`)
     return outputString
   }
+   
+
   return(
     <React.Fragment>
       <TableRow>
@@ -89,7 +91,9 @@ function SubjectTable(props){
         </TableHead>
       }
 
-      {open && props.courses.map((course) =>(
+      {open && props.courses.sort((courseA, courseB) =>(
+        parseInt(courseA.crse) - parseInt(courseB.crse)
+      )).map((course) =>(
         <CourseTable key={course} course ={course}/>
       ))}
     </React.Fragment>
@@ -163,7 +167,3 @@ export default function SchedulerTable(props){
     </div>
   )
 }
-
-
-
-
