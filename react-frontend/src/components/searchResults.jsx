@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import './searchResults.css'
-import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Menu, Button} from '@mui/material'
-import { KeyboardArrowUp, KeyboardArrowDown, Subject} from '@mui/icons-material'
+import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Button, Skeleton} from '@mui/material'
+import { KeyboardArrowUp, KeyboardArrowDown} from '@mui/icons-material'
 
 
 function CourseTable(props){
@@ -10,7 +10,7 @@ function CourseTable(props){
 
   const getTimes = (section) =>{
     var outputString = ""
-    if(section.time.rrules.length ==0){
+    if(section.time.rrules.length ===0){
       return outputString
     } 
 
@@ -147,7 +147,7 @@ export default function SchedulerTable(props){
 
   const validCourses = Object.values(props.courses).filter((course) => {
     const courseHeader = (course.subject + course.crse + " " + course.title).toLowerCase()
-    return courseHeader.includes(props.searchTerm.toLowerCase()) && course.year == year && course.semester == semester
+    return courseHeader.includes(props.searchTerm.toLowerCase()) && course.year === year && course.semester === semester
   })
 
   const subjectDict = {}
@@ -165,12 +165,12 @@ export default function SchedulerTable(props){
 
   return(
     <div className="col-5 classes-div">
-      <TableContainer className="table-container" component={Paper} >
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow className = "table-head-row">
-              {Object.keys(props.courses).length>0 
-                ? 
+      {Object.keys(props.courses).length>0 ?
+        <TableContainer className="table-container" component={Paper} >
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow className = "table-head-row">
+                
                 <TableCell colSpan={2}>
                   <FormControl >
                     <InputLabel>Year</InputLabel>
@@ -179,10 +179,7 @@ export default function SchedulerTable(props){
                     </Select>
                   </FormControl>
                 </TableCell>
-                : <TableCell colSpan={2}/>
-              }
-              {Object.keys(props.courses).length>0 
-                ?
+              
                 <TableCell colSpan={2}>
                   <FormControl >
                     <InputLabel>Semester</InputLabel>
@@ -193,16 +190,21 @@ export default function SchedulerTable(props){
                     </Select>
                   </FormControl>
                 </TableCell>
-                : <TableCell colSpan={2}/>
-              }
-              <TableCell colSpan={2}>
-                <Button onClick={(event) => onButtonClick(event)}>Add Selected Courses</Button>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          {rows}
-        </Table>
-      </TableContainer>
+              
+                <TableCell colSpan={2}>
+                  <Button onClick={(event) => onButtonClick(event)}>Add Selected Courses</Button>
+                </TableCell>
+
+              </TableRow>
+            </TableHead>
+            {rows}
+          </Table>
+        </TableContainer>
+        : [...Array(10).keys()].map((key) => (
+          <Skeleton key={key} variant="text" height={"8.5vh"} sx={{bgcolor : 'grey.500'}}/>
+        ))
+      }
+      
     </div>
   )
 }
