@@ -1,24 +1,22 @@
 import React, {useState} from "react"
 import './searchResults.css'
-import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Menu} from '@mui/material'
+import {IconButton, Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Menu, Button} from '@mui/material'
 import { KeyboardArrowUp, KeyboardArrowDown, Subject} from '@mui/icons-material'
 
 
 function CourseTable(props){
   const [open, setOpen] = useState(false)
+  const [selected, setSelected] = useState({})
 
   const getTimes = (section) =>{
     var outputString = ""
     if(section.time.rrules.length ==0){
-      console.log("skipping")
       return outputString
     } 
 
     const daysOfWeek = section.time.rrules[0].config.byDayOfWeek
     daysOfWeek.forEach((day) =>{
-      console.log("counting days, " + day)
       day.includes("T") ? outputString = outputString.concat(day,","): outputString = outputString.concat(day[0],",")
-      console.log(outputString)
     })
     const startObject = section.time.rrules[0].config.start
     const startTime = new Date(startObject.year, startObject.month, startObject.day, startObject.hour, startObject.minute, startObject.second)
@@ -28,8 +26,17 @@ function CourseTable(props){
     outputString = outputString.concat(`-${(endTime.getHours()%12 || 12)}:${endTime.getMinutes() || "00"}${endTime.getHours()/12>=1 ? "PM": "AM"}`)
     return outputString
   }
-   
 
+  const onClick = (event, section) => {
+    const newSelected = {...selected}
+    if(newSelected[section.crn]) delete newSelected[section.crn]
+    else{
+      newSelected[section.crn] = true
+    }
+
+    setSelected(newSelected)
+    if(props.onChange) props.onChange(event, newSelected)
+  }
   return(
     <React.Fragment>
       <TableRow>
@@ -53,7 +60,7 @@ function CourseTable(props){
         </TableHead>
       }
       {open && props.course.sections.map((section)=> (
-        <TableRow key={section.crn}>
+        <TableRow key={section.crn} onClick={(event) => onClick(event, section)} selected={selected[section.crn]}>
           <TableCell>{section.section}</TableCell>
           <TableCell>{section.crn}</TableCell>
           <TableCell colSpan={3}>{getTimes(section)}</TableCell>
@@ -67,7 +74,19 @@ function CourseTable(props){
 
 function SubjectTable(props){
   const[open, setOpen] = useState(false)
+  const[selectedSections, setSelectedSections] = useState({})
 
+  const onCourseSelectionChange = (event, selected, course) =>{
+    const newSelectedSections = {...selectedSections}
+    newSelectedSections[course.id] = selected
+
+    setSelectedSections(newSelectedSections)
+    const crns = []
+    Object.values(newSelectedSections).forEach((value) => {
+      crns.push(...Object.keys(value))
+    })
+    if(props.onChange) props.onChange(event, crns)
+  }
   return(
     <React.Fragment>
       <TableRow>
@@ -94,7 +113,7 @@ function SubjectTable(props){
       {open && props.courses.sort((courseA, courseB) =>(
         parseInt(courseA.crse) - parseInt(courseB.crse)
       )).map((course) =>(
-        <CourseTable key={course} course ={course}/>
+        <CourseTable key={course.id} course={course} onChange={(event, selected) => onCourseSelectionChange(event, selected, course)}/>
       ))}
     </React.Fragment>
   )
@@ -103,7 +122,24 @@ function SubjectTable(props){
 export default function SchedulerTable(props){
   const [year, setYear] = useState(2022);
   const [semester, setSemester] = useState("FALL")
+  const [sections, setSections] = useState({})
 
+  const selectionChanged = (event, crns, subject) =>{
+    const newSections = {...sections}
+    newSections[subject] = crns
+    setSections(newSections)
+  }
+
+  const onButtonClick = (event) =>{
+
+    if(props.addCourses){
+      const crns = []
+      Object.values(sections).forEach((value) =>
+        crns.push(...value)
+      )  
+      props.addCourses(event, crns)
+    }
+  }
   const years = []
   Object.values(props.courses).forEach((course) => {
     if(!years.includes(course.year)) years.push(course.year) 
@@ -124,7 +160,7 @@ export default function SchedulerTable(props){
     subjectDict[subject].sort((courseA, courseB) =>(
       parseInt(courseA) - parseInt(courseB)
     ))
-    return (<SubjectTable key={subject} subject={subject} courses={subjectDict[subject]}/>)
+    return (<SubjectTable key={subject} subject={subject} courses={subjectDict[subject]} onChange={(event, crns) => selectionChanged(event, crns, subject)}/>)
   }) 
 
   return(
@@ -135,7 +171,7 @@ export default function SchedulerTable(props){
             <TableRow className = "table-head-row">
               {Object.keys(props.courses).length>0 
                 ? 
-                <TableCell colSpan={3}>
+                <TableCell colSpan={2}>
                   <FormControl >
                     <InputLabel>Year</InputLabel>
                     <Select fullWidth value={year} label="Year" onChange={(event) => setYear(event.target.value)}>
@@ -143,11 +179,11 @@ export default function SchedulerTable(props){
                     </Select>
                   </FormControl>
                 </TableCell>
-                : <TableCell colSpan={3}/>
+                : <TableCell colSpan={2}/>
               }
               {Object.keys(props.courses).length>0 
                 ?
-                <TableCell colSpan={3}>
+                <TableCell colSpan={2}>
                   <FormControl >
                     <InputLabel>Semester</InputLabel>
                     <Select fullWidth value={semester} label="Semester" onChange={(event) => setSemester(event.target.value)}>
@@ -157,8 +193,11 @@ export default function SchedulerTable(props){
                     </Select>
                   </FormControl>
                 </TableCell>
-                : <TableCell colSpan={3}/>
+                : <TableCell colSpan={2}/>
               }
+              <TableCell colSpan={2}>
+                <Button onClick={(event) => onButtonClick(event)}>Add Selected Courses</Button>
+              </TableCell>
             </TableRow>
           </TableHead>
           {rows}
