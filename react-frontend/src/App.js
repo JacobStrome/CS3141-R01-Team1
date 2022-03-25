@@ -34,6 +34,9 @@ export class App extends React.Component{
       currentSearch : event.target.value
     })
   }
+  addCourses(event, sections){
+    console.log(sections)
+  }
   render(){
     var theme = createTheme({palette:{mode: 'dark'}})
     return(
@@ -43,7 +46,7 @@ export class App extends React.Component{
           <Navbar onChange = {this.onSearchChange}/>
           <div className="row container p-4">
             {/*Div for class search results*/}
-            <SchedulerTable courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
+            <SchedulerTable courses = {this.state.courses} searchTerm = {this.state.currentSearch} addCourses = {this.addCourses}/>
 
             {/*div for calendar*/}
             <Calendar/>

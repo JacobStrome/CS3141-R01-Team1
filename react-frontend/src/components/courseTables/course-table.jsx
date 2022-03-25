@@ -63,7 +63,7 @@ export default function CourseTable(props){
       //Deletes the section if it already occured in the object otherwise add it to the object
       if(newSelected[section.crn]) delete newSelected[section.crn]
       else{
-        newSelected[section.crn] = true
+        newSelected[section.crn] = section
       }
   
       //Sets the state to the new object
@@ -96,7 +96,7 @@ export default function CourseTable(props){
           </TableHead>
         }
         {open && props.course.sections.map((section)=> (
-          <TableRow key={section.crn} onClick={(event) => onClick(event, section)} selected={selected[section.crn]}>
+          <TableRow key={section.crn} onClick={(event) => onClick(event, section)} selected={selected[section.crn] != undefined}>
             <TableCell>{section.section}</TableCell>
             <TableCell>{section.crn}</TableCell>
             <TableCell colSpan={3}>{getTimes(section)}</TableCell>

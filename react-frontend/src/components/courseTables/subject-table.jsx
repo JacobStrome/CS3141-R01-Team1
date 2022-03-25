@@ -32,8 +32,12 @@ export default function SubjectTable(props){
     //Gets the full list of the crns as a single list to pass to the function
     const crns = []
     Object.values(newSelectedSections).forEach((value) => {
-      crns.push(...Object.keys(value))
-    })
+      Object.keys(value).forEach((key) => {
+        const obj = {}
+        obj[key] = value
+        crns.push(obj)
+      }
+    )})
 
     //Call the onChange function if given
     if(props.onChange) props.onChange(event, crns)
