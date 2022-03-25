@@ -1,10 +1,11 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Navbar from './components/navbar'
-import SearchResults from './components/searchResults'
+import SchedulerTable from './components/courseTables/scheduler-table'
 import Calendar from './components/calendar'
 import React from 'react';
 import axios from 'axios';
+import { createTheme, ThemeProvider } from '@mui/material';
 export class App extends React.Component{
 
   constructor(props){
@@ -13,14 +14,17 @@ export class App extends React.Component{
   }
 
   componentDidMount(){
-    axios.defaults.headers.get = 'Access-Control-Allow-Origin: *'
-    axios.get('http://127.0.0.1:8000/api/classes').then((response) => {
+    axios.get('http://127.0.0.1:8000/api/classes')
+    .then((response) => {
       
       this.setState({
       courses : response.data,
       currentSearch : this.state.currentSearch
       })
-    });
+
+    }).catch((error) => {
+      console.error(error)
+    })
     this.onSearchChange = this.onSearchChange.bind(this)
   }
 
@@ -31,20 +35,22 @@ export class App extends React.Component{
     })
   }
   render(){
+    var theme = createTheme({palette:{mode: 'dark'}})
     return(
-      <div className="App">
-      <body>
-        {/*navbar*/}
-        <Navbar onChange = {this.onSearchChange}/>
-        <div class="row container p-4">
-          {/*Div for class search results*/}
-          <SearchResults courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          {/*navbar*/}
+          <Navbar onChange = {this.onSearchChange}/>
+          <div className="row container p-4">
+            {/*Div for class search results*/}
+            <SchedulerTable courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
 
-          {/*div for calendar*/}
-          <Calendar/>
+            {/*div for calendar*/}
+            <Calendar/>
+          </div>
         </div>
-      </body>
-    </div>
+      </ThemeProvider>
+      
     )
   }
 }

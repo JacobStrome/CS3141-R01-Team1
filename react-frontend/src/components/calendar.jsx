@@ -5,21 +5,21 @@ export default class Calendar extends React.Component {
 
     render(){
         return(
-            <div class="col-8">
+            <div className="col-7">
             <table>
-              <col class="time-label"></col>
-              <col class="calendar-col"></col>
-              <col class="calendar-col"></col>
-              <col class="calendar-col"></col>
-              <col class="calendar-col"></col>
-              <col class="calendar-col"></col>
+              <col className="time-label"></col>
+              <col className="calendar-col"></col>
+              <col className="calendar-col"></col>
+              <col className="calendar-col"></col>
+              <col className="calendar-col"></col>
+              <col className="calendar-col"></col>
               <tr>
-                <th class="time-label"> </th>
-                <th class="no-border gray-label"> M </th>
-                <th class="no-border gray-label"> T </th>
-                <th class="no-border gray-label"> W </th>
-                <th class="no-border gray-label"> R </th>
-                <th class="no-border gray-label"> F </th>
+                <th className="time-label"> </th>
+                <th className="no-border gray-label"> M </th>
+                <th className="no-border gray-label"> T </th>
+                <th className="no-border gray-label"> W </th>
+                <th className="no-border gray-label"> R </th>
+                <th className="no-border gray-label"> F </th>
               </tr>
               <tr>
                 <th class="no-border gray-label time-label"> 8am </th>
