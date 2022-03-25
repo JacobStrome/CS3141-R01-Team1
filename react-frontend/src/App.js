@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Navbar from './components/navbar'
-import SearchResults from './components/searchResults'
+import SchedulerTable from './components/courseTables/scheduler-table'
 import Calendar from './components/calendar'
 import React from 'react';
 import axios from 'axios';
@@ -43,7 +43,7 @@ export class App extends React.Component{
           <Navbar onChange = {this.onSearchChange}/>
           <div className="row container p-4">
             {/*Div for class search results*/}
-            <SearchResults courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
+            <SchedulerTable courses = {this.state.courses} searchTerm = {this.state.currentSearch}/>
 
             {/*div for calendar*/}
             <Calendar/>
