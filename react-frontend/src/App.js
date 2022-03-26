@@ -10,7 +10,7 @@ export class App extends React.Component{
 
   constructor(props){
     super(props)
-    this.state = {courses: [], currentSearch : ""}
+    this.state = {courses: [], currentSearch : "", currentSections : {}}
   }
 
   componentDidMount(){
@@ -19,7 +19,8 @@ export class App extends React.Component{
       
       this.setState({
       courses : response.data,
-      currentSearch : this.state.currentSearch
+      currentSearch : this.state.currentSearch,
+      currentSections : this.state.currentSections
       })
 
     }).catch((error) => {
@@ -31,11 +32,16 @@ export class App extends React.Component{
   onSearchChange(event){
     this.setState({
       courses : this.state.courses,
-      currentSearch : event.target.value
+      currentSearch : event.target.value,
+      currentSections : this.state.currentSections
     })
   }
   addCourses(event, sections){
-    console.log(sections)
+    this.setState({
+      courses : this.state.courses,
+      currentSearch : this.state.currentSearch,
+      currentSections : sections
+    })
   }
   render(){
     var theme = createTheme({palette:{mode: 'dark'}})
@@ -49,7 +55,7 @@ export class App extends React.Component{
             <SchedulerTable courses = {this.state.courses} searchTerm = {this.state.currentSearch} addCourses = {this.addCourses}/>
 
             {/*div for calendar*/}
-            <Calendar/>
+            <Calendar sections={this.state.currentSections}/>
           </div>
         </div>
       </ThemeProvider>
