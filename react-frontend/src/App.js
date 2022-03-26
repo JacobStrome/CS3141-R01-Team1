@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Navbar from './components/navbar'
 import SchedulerTable from './components/courseTables/scheduler-table'
-import Calendar from './components/calendar'
+import Calendar from './components/calender/calendar'
 import React from 'react';
 import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material';
