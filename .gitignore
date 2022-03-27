@@ -1,6 +1,7 @@
-.venv
-
+# React #
+*.test.json
 # Django #
+.venv
 *.log
 *.pot
 *.pyc

@@ -96,7 +96,7 @@ export default function CourseTable(props){
           </TableHead>
         }
         {open && props.course.sections.map((section)=> (
-          <TableRow key={section.crn} onClick={(event) => onClick(event, section)} selected={selected[section.crn] != undefined}>
+          <TableRow id ={"section-" + section.crn} key={section.crn} onClick={(event) => onClick(event, section)} selected={selected[section.crn] != undefined}>
             <TableCell>{section.section}</TableCell>
             <TableCell>{section.crn}</TableCell>
             <TableCell colSpan={3}>{getTimes(section)}</TableCell>
