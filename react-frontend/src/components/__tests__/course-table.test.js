@@ -16,7 +16,8 @@ beforeAll(() => {
 beforeEach(() => {
     div = document.createElement('div')
     document.body.appendChild(div)
-    
+    jest.spyOn(console, 'error').mockImplementation(()=>{})
+
 })
 afterEach(() => {
     unmountComponentAtNode(div)

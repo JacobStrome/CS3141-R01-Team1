@@ -24,7 +24,7 @@ export class App extends React.Component{
       })
 
     }).catch((error) => {
-      console.error(error)
+      console.warn("Failed to fetch courses")
     })
     this.onSearchChange = this.onSearchChange.bind(this)
   }

@@ -116,10 +116,9 @@ export default function SchedulerTable(props){
           </Table>
         </TableContainer>
         : [...Array(10).keys()].map((key) => (
-          <Skeleton key={key} variant="text" height={"8.5vh"} sx={{bgcolor : 'grey.500'}}/>
+          <Skeleton id="table-skeleton" key={key} variant="text" height={"8.5vh"} sx={{bgcolor : 'grey.500'}}/>
         ))
       }
-      
     </div>
   )
 }
