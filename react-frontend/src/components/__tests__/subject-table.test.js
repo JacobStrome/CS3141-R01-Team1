@@ -159,7 +159,6 @@ it('show header after dropdown press', () => {
         const label= button.getAttribute("aria-label")
         if(label === "expand section row") sectionExpandButton = button
     })
-    console.log(sectionExpandButton)
     act(()=>{
         sectionExpandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
     })
