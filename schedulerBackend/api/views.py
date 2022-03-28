@@ -26,6 +26,25 @@ def classes(request):
         if(section['courseId'] in coursesDict):
             coursesDict[section['courseId']]['sections'].append(section)
 
+    subjectList = [course['subject'] for course in coursesDict.values()]
+    print("starting prereq processing")
+    for key in coursesDict.keys():
+        value = coursesDict[key]
+        prereqString = value['prereqs']
+        newPrereqs = []
+        if(type(prereqString) is str):
+            for subject in subjectList:
+                subjectPos = prereqString.find(subject + " ")
+                while(subjectPos>=0):
+                    courseNumber = prereqString[subjectPos+3:subjectPos+7]
+                    for course in coursesDict.values():
+                        if(course['subject'] == subject and course['crse'] == courseNumber): 
+                            newPrereqs.append(course['id'])
+                    subjectPos = prereqString.find(subject + " ", subjectPos+7)
+        else:
+            value['prereqs'] = []
+        value['prereqs'] = newPrereqs
+    print("ending prereq processing")
 
     #The data stored in courseDictionary after the processing is formatted as such
     # courseDict = { //outer dictionary
