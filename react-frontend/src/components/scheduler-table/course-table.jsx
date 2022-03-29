@@ -25,23 +25,16 @@ export default function CourseTable(props){
     const getTimes = (section) =>{
       //Sets default string
       var outputString = ""
-      if(section.time.rrules.length ===0) return outputString //Returns empty string if no times are given 
-  
-      //Gets the list of days the section is held
-      const daysOfWeek = section.time.rrules[0].config.byDayOfWeek
+      if(section.monday)    outputString = outputString.concat("M,")
+      if(section.tuesday)   outputString = outputString.concat("TU,")
+      if(section.wednesday) outputString = outputString.concat("W,")
+      if(section.thursday)  outputString = outputString.concat("TH,")
+      if(section.friday)    outputString = outputString.concat("F,")
+      if(outputString.length>0) outputString = outputString.slice(0, -1)
 
-      //Adds the letters corrisponding to the day to the string with Tuesday and Thursday using 2 letters and Mon,Wed,Fri using 1 letter
-      daysOfWeek.forEach((day) =>{
-        day.includes("T") ? outputString = outputString.concat(day,","): outputString = outputString.concat(day[0],",")
-      })
 
-      //Gets the start time of the section as a object then convert to a date object
-      const startObject = section.time.rrules[0].config.start
-      const startTime = new Date(startObject.year, startObject.month, startObject.day, startObject.hour, startObject.minute, startObject.second)
-
-      //Gets the end time of the section as a object then convert to a date object
-      const endObject = section.time.rrules[0].config.end
-      const endTime = new Date(endObject.year, endObject.month, endObject.day, endObject.hour, endObject.minute, endObject.second)
+      const startTime = new Date(section.startTime)
+      const endTime =   new Date(section.endTime)
 
       //Adds the start time to the course in the format hour:minuteAM/PM
       outputString = outputString.concat(` ${(startTime.getHours()%12 || 12)}:${startTime.getMinutes() || "00"}${startTime.getHours()/12>=1 ? "PM": "AM"}`)
