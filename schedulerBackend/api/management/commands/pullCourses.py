@@ -14,6 +14,7 @@ class Command(BaseCommand):
         coursesDict = {course['id']: course for course in courses}
 
         #Loops through the values in the course dictionary and adds a sections key with an empty array to it 
+        print('starting course database additions')
         for course in coursesDict.values():
             course['sections'] = []
             if course['description'] is None: course['description'] = ''
@@ -28,8 +29,24 @@ class Command(BaseCommand):
                 credits=course['maxCredits']
             )
             courseDB.save()
+        print('finishing course database additions')
 
+        subjects = list(set([course['subject'] for course in coursesDict.values()]))
+        
+        print('starting prereq database additions')
+        # for course in coursesDict.values():
+        #     prereqString = course['prereqs']
+        #     if prereqString is None: break
+        #     courseDB = Course.objects.get(id=course['id'])
+        #     for subject in subjects:
+        #         subjectCourses = Course.objects.filter(subject=subject)
+        #         subjectPos = prereqString.find(subject+" ")
+        #         while(subjectPos>=0):
+                    
+
+        print('finishing prereq database additions')
         #Loops through all the sections and adds it to the corrisponding course's sections key
+        print('starting section database additions')
         for section in sections:
                 
             sectionDB = Section(
@@ -80,6 +97,7 @@ class Command(BaseCommand):
             if(section['courseId'] in coursesDict):
                 Course.objects.get(id=section['courseId']).sections.add(sectionDB)
 
+        print('finishing section database additions')
                 
 
         
