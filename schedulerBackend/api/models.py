@@ -35,6 +35,29 @@ class Section(models.Model):
         if(len(outputString)>0): outputString = outputString[0:-1]        
         return outputString
     
+    def __dict__(self):
+        output = {
+            'id' : self.id,
+            'crn' : self.crn,
+            'section' : self.section,
+            'credits' : self.credits,
+            'totalSeats' : self.totalSeats,
+            'takenSeats' : self.takenSeats,
+            'availableSeats': self.availableSeats,
+            'buildingName' : self.buildingName,
+            'room' : self.room,
+            'startTime' : self.startTime,
+            'endTime' : self.endTime,
+            'startDate' : self.startDate,
+            'endDate' : self.endDate,
+            'monday' : self.monday,
+            'tuesday' : self.tuesday,
+            'wednesday' : self.wednesday,
+            'thursday' : self.thursday,
+            'friday' : self.friday
+        }
+        return output
+    
 class Course(models.Model):
     id = models.CharField(max_length=30, primary_key=True)
     year = models.IntegerField()
@@ -50,5 +73,20 @@ class Course(models.Model):
 
     def __str__(self):
         return self.subject + self.crse + " " + self.title
+
+    def __dict__(self):
+        output = {
+            'id' : self.id,
+            'year': self.year,
+            'semester' : self.semester,
+            'subject' : self.subject,
+            'crse' : self.crse,
+            'title' : self.title,
+            'descripton' : self.description,
+            'credits' : self.credits,
+            'sections': [section.__dict__() for section in self.sections.all()],
+            'prereqs' : [prereq.id for prereq in self.prereqs.all()]
+        }
+        return output
     
 

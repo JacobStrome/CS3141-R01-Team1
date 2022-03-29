@@ -1,5 +1,6 @@
 from datetime import date, time
 from django.core.management.base import BaseCommand
+from django.core.exceptions import ObjectDoesNotExist
 from ...models import Section, Course
 import requests
 
@@ -7,8 +8,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        print("starting course request")
         courses = requests.get('https://api.michigantechcourses.com/courses').json()
+        print("finishing course request")
+
+        print("starting sections request")
         sections = requests.get('https://api.michigantechcourses.com/sections').json()
+        print("finishing sections request")
 
         #Converts the courses array into a dictionary using their id
         coursesDict = {course['id']: course for course in courses}
@@ -23,6 +29,7 @@ class Command(BaseCommand):
                 id=course['id'],
                 year=course['year'],
                 semester=course['semester'],
+                subject=course['subject'],
                 crse=course['crse'],
                 title=course['title'],
                 description=course['description'],
@@ -34,14 +41,21 @@ class Command(BaseCommand):
         subjects = list(set([course['subject'] for course in coursesDict.values()]))
         
         print('starting prereq database additions')
-        # for course in coursesDict.values():
-        #     prereqString = course['prereqs']
-        #     if prereqString is None: break
-        #     courseDB = Course.objects.get(id=course['id'])
-        #     for subject in subjects:
-        #         subjectCourses = Course.objects.filter(subject=subject)
-        #         subjectPos = prereqString.find(subject+" ")
-        #         while(subjectPos>=0):
+        for course in coursesDict.values():
+            prereqString = course['prereqs']
+            if prereqString is None: continue
+            courseDB = Course.objects.get(id=course['id'])
+            for subject in subjects:
+                subjectPos = prereqString.find(subject+" ")
+                while(subjectPos>=0):
+                    prereqDBs = Course.objects.filter(subject=subject, crse=prereqString[subjectPos+len(subject)+1:subjectPos+len(subject)+5])
+                    if len(prereqDBs)>0: 
+                        courseDB.prereqs.add(prereqDBs[0])
+                    else: 
+                        print("prereq not found "+subject+ " " +prereqString[subjectPos+len(subject)+1:subjectPos+len(subject)+5] + " not found")
+                    subjectPos = prereqString.find(subject + " ", subjectPos+len(subject)+1)
+
+
                     
 
         print('finishing prereq database additions')
