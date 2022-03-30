@@ -33,9 +33,9 @@ If for some reason the database needs to be rebuilt there are a couple of action
 first the migrations dirctories within schedulerBackend/api needs to be deleted along with schedulerBackend/db.sqlite3 .
 Once these files are deleted the following commands must be run in order:
 
-`python3 -m manage.py makemigrations`
-`python3 -m manage.py migrate`
-`python3 -m manage.py pullcourses`
+`python3 -m manage.py makemigrations`<br/>
+`python3 -m manage.py migrate`<br/>
+`python3 -m manage.py pullcourses`<br/>
 
 After running these commands the new database should be built however if you had an admin account you will need to recreate it
 see the above section for more inforamtion
