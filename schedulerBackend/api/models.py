@@ -35,7 +35,7 @@ class Section(models.Model):
         if(len(outputString)>0): outputString = outputString[0:-1]        
         return outputString
     
-    def __dict__(self):
+    def getDict(self):
         output = {
             'id' : self.id,
             'crn' : self.crn,
@@ -74,7 +74,7 @@ class Course(models.Model):
     def __str__(self):
         return self.subject + self.crse + " " + self.title
 
-    def __dict__(self):
+    def getDict(self):
         output = {
             'id' : self.id,
             'year': self.year,
@@ -84,7 +84,7 @@ class Course(models.Model):
             'title' : self.title,
             'descripton' : self.description,
             'credits' : self.credits,
-            'sections': [section.__dict__() for section in self.sections.all()],
+            'sections': [section.getDict() for section in self.sections.all()],
             'prereqs' : [prereq.id for prereq in self.prereqs.all()]
         }
         return output

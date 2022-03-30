@@ -10,6 +10,6 @@ from .models import Course
 # Create your views here.
 @cache_page(60*60)
 def classes(request):
-    courseData = {course.id : course.__dict__() for course in Course.objects.all()}
+    courseData = {course.id : course.getDict() for course in Course.objects.all()}
     return(JsonResponse(courseData, safe=False))
 
