@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM, { unmountComponentAtNode } from 'react-dom';
 import CourseTable from '../scheduler-table/course-table'
-import {readFileSync} from 'fs'
+import { readFileSync } from 'fs'
 import path from 'path';
-import {act} from 'react-dom/test-utils'
+import { act } from 'react-dom/test-utils'
 
 var importedData = {}
 var div = null;
@@ -16,7 +16,7 @@ beforeAll(() => {
 beforeEach(() => {
     div = document.createElement('div')
     document.body.appendChild(div)
-    jest.spyOn(console, 'error').mockImplementation(()=>{})
+    jest.spyOn(console, 'error').mockImplementation(() => { })
 
 })
 afterEach(() => {
@@ -32,12 +32,12 @@ it('renders without crashing', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
-    })      
+    })
 });
 
 it('correct course number is present', () => {
@@ -47,13 +47,13 @@ it('correct course number is present', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
-    }) 
-    expect(div.textContent).toContain(course.crse)      
+    })
+    expect(div.textContent).toContain(course.crse)
 });
 
 it('correct subject is present', () => {
@@ -63,13 +63,13 @@ it('correct subject is present', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
     })
-    expect(div.textContent).toContain(course.subject)      
+    expect(div.textContent).toContain(course.subject)
 });
 
 it('correct title is present', () => {
@@ -79,13 +79,13 @@ it('correct title is present', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
-    }) 
-    expect(div.textContent).toContain(course.title)      
+    })
+    expect(div.textContent).toContain(course.title)
 });
 
 it('section table not shown on initial render', () => {
@@ -95,7 +95,7 @@ it('section table not shown on initial render', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
@@ -111,15 +111,15 @@ it('section table shown after button press', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
     })
     const expandButton = document.getElementsByTagName('button')[0]
-    act(()=>{
-        expandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        expandButton.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
     expect(div.textContent).toContain("Name")
 });
@@ -131,15 +131,15 @@ it('correct section table header shown', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
     })
     const expandButton = document.getElementsByTagName('button')[0]
-    act(()=>{
-        expandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        expandButton.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
     expect(div.textContent).toContain("Name")
     expect(div.textContent).toContain("CRN")
@@ -154,17 +154,17 @@ it('table displays the section data in rows under the course', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
     })
     const expandButton = document.getElementsByTagName('button')[0]
-    act(()=>{
-        expandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        expandButton.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
-    
+
     expect(div.textContent).toContain(course.sections[0].crn)
 });
 
@@ -177,19 +177,19 @@ it('test the selection of a section', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course} onChange={onChange}/>
+                    <CourseTable course={course} onChange={onChange} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
     })
     const expandButton = document.getElementsByTagName('button')[0]
-    act(()=>{
-        expandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        expandButton.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
     const row = document.getElementById("section-" + course.sections[0].crn)
-    act(()=>{
-        row.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        row.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
     expect(onChange).toHaveBeenCalled()
 });
@@ -201,20 +201,20 @@ it('tests that the sections disapear when clicked twice', () => {
         const testObject = (
             <table>
                 <tbody>
-                  <CourseTable course={course}/>
+                    <CourseTable course={course} />
                 </tbody>
             </table>
         )
         ReactDOM.render(testObject, div);
     })
     const expandButton = document.getElementsByTagName('button')[0]
-    act(()=>{
-        expandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        expandButton.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
     expect(div.textContent).toContain("Name")
-    act(()=>{
-        expandButton.dispatchEvent(new MouseEvent("click", {bubbles: true}))
+    act(() => {
+        expandButton.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
     expect(div.textContent).not.toContain("Name")
-    
+
 });

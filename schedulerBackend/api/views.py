@@ -12,4 +12,3 @@ from .models import Course
 def classes(request):
     courseData = {course.id : course.getDict() for course in Course.objects.all()}
     return(JsonResponse(courseData, safe=False))
-
