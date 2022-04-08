@@ -64,10 +64,16 @@ class Section(models.Model):
         return output
 
 
-class Course(models.Model):
-    id = models.CharField(max_length=30, primary_key=True)
+class Semester(models.Model):
     year = models.IntegerField()
     semester = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.semester + " " +str(self.year)
+
+class Course(models.Model):
+    id = models.CharField(max_length=30, primary_key=True)
+    semesters = models.ManyToManyField(Semester, symmetrical=False)
     subject = models.CharField(max_length=4)
     crse = models.CharField(max_length=4)
     title = models.CharField(max_length=100)
@@ -82,14 +88,13 @@ class Course(models.Model):
     def getDict(self):
         output = {
             "id": self.id,
-            "year": self.year,
-            "semester": self.semester,
+            "semester": self.semesters,
             "subject": self.subject,
             "crse": self.crse,
             "title": self.title,
             "descripton": self.description,
             "credits": self.credits,
-            "sections": [section.getDict() for section in self.sections.all()],
+            "sections": [section.id for section in self.sections.all()],
             "prereqs": [prereq.id for prereq in self.prereqs.all()],
         }
         return output
