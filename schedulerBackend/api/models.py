@@ -71,6 +71,13 @@ class Semester(models.Model):
     def __str__(self):
         return self.semester + " " +str(self.year)
 
+    def getDict(self):
+        return {
+            "id" : self.pk,
+            "year" : self.year,
+            "semester": self.semester
+        }
+
 class Course(models.Model):
     id = models.CharField(max_length=30, primary_key=True)
     semesters = models.ManyToManyField(Semester, symmetrical=False)
@@ -88,7 +95,7 @@ class Course(models.Model):
     def getDict(self):
         output = {
             "id": self.id,
-            "semester": self.semesters,
+            "semester": [semester.pk for semester in self.semesters.all()],
             "subject": self.subject,
             "crse": self.crse,
             "title": self.title,
