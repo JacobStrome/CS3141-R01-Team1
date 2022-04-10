@@ -1,5 +1,5 @@
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@mui/material'
-import React, {useState} from 'react'
+import React, {useState} from "react"
 
 export default function SectionDialog(props){
 
@@ -34,7 +34,41 @@ export default function SectionDialog(props){
         return outputString //returns the completed string
     }
 
+    
+    // find all the prereqs for the current course
+    const getPrereqs = (course, courses) =>{
 
+        var output = ""
+
+        if (course.prereqs[0] == null){
+            output = "no prereq"
+            return output
+        }
+
+        var PrereqsForCurrentCourse = course.prereqs
+
+        // for each one of the prereqs, find the details on them from 'courses' since we only have the string
+        for (var prereqIndex = 0; prereqIndex < PrereqsForCurrentCourse; prereqIndex++){
+            // get current prereq id string
+            var currentPrereqCourseIDString = PrereqsForCurrentCourse[prereqIndex]
+
+            // look up id string in all known courses
+            for (var allCoursesIndex= 0; allCoursesIndex < courses.length; allCoursesIndex++){
+                var potentialCourse = courses[allCoursesIndex]
+
+                // if it's the ID we are looking for add it to output
+                if (potentialCourse.id === currentPrereqCourseIDString){
+                    output = output.concat(potentialCourse.subject + " " + potentialCourse.crse + ", ")
+
+                    console.log(courses)  
+                }
+            }
+        }
+
+        console.log(courses)
+        return output
+    }
+    
 
     return(
         <Dialog open={props.open} fullWidth maxWidth = "md">
@@ -46,6 +80,7 @@ export default function SectionDialog(props){
                     {props.section.buildingName && `Building: ${props.section.buildingName} Room: ${props.section.room}`}
                     {!props.section.buildingName && `Taught Online`}<br/>
                     {getTimes(props.section).length > 0 && `Times: ${getTimes(props.section)}`}
+                    Prereqs: {getPrereqs(props.course, props.courses)}
                 </DialogContentText>
                 <DialogActions>
                     <Button onClick={props.handleClose}>Close</Button>
