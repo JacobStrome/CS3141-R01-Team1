@@ -69,7 +69,7 @@ export default function SubjectTable(props){
       {open && props.courses.sort((courseA, courseB) =>(
         parseInt(courseA.crse) - parseInt(courseB.crse)
       )).map((course) =>(
-        <CourseTable key={course.id} course={course} onChange={(event, selected) => onCourseSelectionChange(event, selected, course)}/>
+        <CourseTable key={course.id} course={course} courses={props.allCourses} onChange={(event, selected) => onCourseSelectionChange(event, selected, course)}/>
       ))}
     </React.Fragment>
   )

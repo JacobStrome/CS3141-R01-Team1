@@ -82,7 +82,7 @@ export default function CourseTable(props){
     
     return(
       <React.Fragment>
-        <SectionDialog open={openDialog} course={props.course} section={dialogSection} handleClose={()=> setOpenDialog(false)}/>
+        <SectionDialog open={openDialog} course={props.course} section={dialogSection} courses={props.courses} handleClose={()=> setOpenDialog(false)}/>
         <TableRow>
           <TableCell>
             <IconButton aria-label="expand section row" size="small" onClick={()=> setOpen(!open)}>
