@@ -1,7 +1,8 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import './scheduler-table.css'
 import {Paper, TableCell, TableContainer, TableHead, TableRow, Table, FormControl, Select, InputLabel, MenuItem, Button, Skeleton} from '@mui/material'
 import SubjectTable from "./subject-table"
+import axios from "axios";
 
 
 /**
@@ -12,10 +13,19 @@ import SubjectTable from "./subject-table"
  */
 export default function SchedulerTable(props){
   //Setup state variables
-  const [year, setYear] = useState(2022); //Sets the default year to 2022
-  const [semester, setSemester] = useState("FALL") //sets the default semester to the Fall
+  const [semesters, setSemesters] = useState([])
+  const [semester, setSemester] = useState({id : 0}); //Sets the default year
   const [sections, setSections] = useState({}) //Initially sets no sections as selected
-
+  
+  useEffect(()=> {
+    axios.get('http://127.0.0.1:8000/api/semesters').then((response)=>{    
+      if (semesters !=  Object.values(response.data)){
+        setSemesters(Object.values(response.data))
+        setSemester(Object.values(response.data)[0])
+        console.log(semester)
+      }
+    })
+  }, [])
   /**
    * Handles when a new section is selected by the user
    * @param {React.MouseEvent<HTMLTableRowElement, MouseEvent>} event 
@@ -51,16 +61,11 @@ export default function SchedulerTable(props){
     }
   }
   
-  //Gets a list of all of the years given back by the courses object
-  const years = []
-  Object.values(props.courses).forEach((course) => {
-    if(!years.includes(course.year)) years.push(course.year) 
-  })
-
+  console.log(semester)
   //Finds which courses are valid based on the selected year, semester, and searchTerm
   const validCourses = Object.values(props.courses).filter((course) => {
     const courseHeader = (course.subject + course.crse + " " + course.title).toLowerCase()
-    return courseHeader.includes(props.searchTerm.toLowerCase()) && course.year === year && course.semester === semester
+    return courseHeader.includes(props.searchTerm.toLowerCase()) && semester.id in course.semester
   })
 
   //Sorts the courses by subject into a dictionary in the format {subject: [...courses]}
@@ -85,26 +90,17 @@ export default function SchedulerTable(props){
           <Table stickyHeader>
             <TableHead>
               <TableRow className = "table-head-row">
+                {semesters.length>0 &&
+                  <TableCell colSpan={4}>
+                    <FormControl >
+                      <InputLabel>Semester</InputLabel>
+                      <Select fullWidth value={semester} label="Semester" onChange={(event) => setSemester(event.target.value)}>
+                        {semesters.map((s) => (<MenuItem key={s.id} value={s}>{s.semester + " " + s.year}</MenuItem>))}
+                      </Select>
+                    </FormControl>
+                  </TableCell>
+                }
                 
-                <TableCell colSpan={2}>
-                  <FormControl >
-                    <InputLabel>Year</InputLabel>
-                    <Select fullWidth value={year} label="Year" onChange={(event) => setYear(event.target.value)}>
-                      {years.map((y) => (<MenuItem key={y} value={y}>{y}</MenuItem>))}
-                    </Select>
-                  </FormControl>
-                </TableCell>
-              
-                <TableCell colSpan={2}>
-                  <FormControl >
-                    <InputLabel>Semester</InputLabel>
-                    <Select fullWidth value={semester} label="Semester" onChange={(event) => setSemester(event.target.value)}>
-                        <MenuItem value="FALL">FALL</MenuItem>
-                        <MenuItem value="SPRING">SPRING</MenuItem>
-                        <MenuItem value="SUMMER">SUMMER</MenuItem>
-                    </Select>
-                  </FormControl>
-                </TableCell>
               
                 <TableCell colSpan={2}>
                   <Button onClick={(event) => onButtonClick(event)}>Add Selected Courses</Button>
