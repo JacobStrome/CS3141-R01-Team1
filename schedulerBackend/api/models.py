@@ -111,7 +111,7 @@ class Course(models.Model):
         output = {
             "id": self.id,
             "semester": [semester.pk for semester in self.semesters.all()],
-            "subject": self.subject,
+            "subject": self.subject.ticker,
             "crse": self.crse,
             "title": self.title,
             "descripton": self.description,

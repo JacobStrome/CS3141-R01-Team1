@@ -14,7 +14,7 @@ export class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://127.0.0.1:8000/api/classes')
+    axios.get('http://127.0.0.1:8000/api/courses')
       .then((response) => {
 
         this.setState({
@@ -44,7 +44,7 @@ export class App extends React.Component {
     })
   }
   render() {
-    var theme = createTheme({ palette: { mode: 'dark' } })
+    var theme = createTheme({ palette: { mode: 'light' } })
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
