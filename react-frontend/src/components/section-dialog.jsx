@@ -43,7 +43,7 @@ export default function SectionDialog(props){
 
         // inital check for prereq classes
         if (course.prereqs[0] == null){
-            output = "no prereq"
+            output = "No prerequisite class"
             return output
         }
 
@@ -64,7 +64,7 @@ export default function SectionDialog(props){
             }
             
         }
-        
+
         return output
     }
     
