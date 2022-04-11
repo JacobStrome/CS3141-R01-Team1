@@ -6,6 +6,7 @@ import Calendar from './components/calender/calendar'
 import React from 'react';
 import axios from 'axios';
 import { createTheme, Grid, ThemeProvider } from '@mui/material';
+import TableContainer from './components/left-navigation/table-container';
 export class App extends React.Component {
 
   constructor(props) {
@@ -50,7 +51,8 @@ export class App extends React.Component {
       <div style={{ paddingLeft: 32, paddingRight:32, paddingTop: 16}}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={2} justifyItems="center" alignItems="center">
-            <Navbar onChange={this.onSearchChange} />
+            <Navbar onChange={this.onSearchChange}/>
+            <TableContainer/>
           </Grid>
         </ThemeProvider>
       </div>
