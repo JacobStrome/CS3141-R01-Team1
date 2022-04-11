@@ -76,7 +76,6 @@ export default function CourseTable(props){
         callerID === section.crn ? callerSection = section : callerSection = callerSection
       })
       setDialogSection(callerSection)
-      console.log(callerID)
       setOpenDialog(true)
     }
     
