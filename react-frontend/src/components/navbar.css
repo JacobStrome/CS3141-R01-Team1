@@ -16,3 +16,13 @@
   width:400px;
   border-color: black;
 }
+
+#logo {
+  width: 60px;
+  height: 60px;
+}
+
+#download-button{
+  padding-left: 46px;
+  width: fit-content
+}

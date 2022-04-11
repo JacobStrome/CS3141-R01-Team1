@@ -5,12 +5,13 @@ import SchedulerTable from './components/scheduler-table/scheduler-table'
 import Calendar from './components/calender/calendar'
 import React from 'react';
 import axios from 'axios';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { createTheme, Grid, ThemeProvider } from '@mui/material';
 export class App extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = { courses: [], currentSearch: "", currentSections: {} }
+    this.onSearchChange = this.onSearchChange.bind(this)
   }
 
   componentDidMount() {
@@ -46,19 +47,14 @@ export class App extends React.Component {
   render() {
     var theme = createTheme({ palette: { mode: 'light' } })
     return (
-      <ThemeProvider theme={theme}>
-        <div className="App">
-          {/*navbar*/}
-          <Navbar onChange={this.onSearchChange} />
-          <div className="row container p-4">
-            {/*Div for class search results*/}
-            <SchedulerTable courses={this.state.courses} searchTerm={this.state.currentSearch} addCourses={this.addCourses} />
+      <div style={{ paddingLeft: 32, paddingRight:32, paddingTop: 16}}>
+        <ThemeProvider theme={theme}>
+          <Grid container spacing={2} justifyItems="center" alignItems="center">
+            <Navbar onChange={this.onSearchChange} />
+          </Grid>
+        </ThemeProvider>
+      </div>
 
-            {/*div for calendar*/}
-            <Calendar sections={this.state.currentSections} />
-          </div>
-        </div>
-      </ThemeProvider>
 
     )
   }
