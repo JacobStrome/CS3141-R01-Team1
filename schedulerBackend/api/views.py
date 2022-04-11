@@ -5,7 +5,7 @@ from django.views.decorators.cache import cache_page
 from django.core import serializers
 import requests
 
-from .models import Course, Semester, Section
+from .models import Course, Semester, Section, Subject
 
 
 # Create your views here.
@@ -35,7 +35,11 @@ def section(request, id):
     return JsonResponse(sectionDB[0].getDict(), safe=False)
 
 
-@cache_page(60*60)
 def semesters(request):
     sems = {semester.pk : semester.getDict() for semester in Semester.objects.all()}
     return JsonResponse(sems, safe=False)
+
+
+def subjects(request):
+    subjectData = {subject.ticker : subject.getDict() for subject in Subject.objects.all()}
+    return JsonResponse(subjectData, safe=False)
