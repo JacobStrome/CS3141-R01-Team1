@@ -1,7 +1,7 @@
 from datetime import date, time
 from django.core.management.base import BaseCommand
 from django.core.exceptions import ObjectDoesNotExist
-from ...models import Section, Course, Semester
+from ...models import Section, Course, Semester, Subject
 import requests
 
 
@@ -51,10 +51,16 @@ class Command(BaseCommand):
             if course["title"] is None:
                 course["title"] = ""
 
+            subject = Subject(ticker = course['subject'])
+            try:
+                subject = Subject.objects.get(ticker = course['subject'])
+            except:
+                subject.save()
+
             # Create the Course DB object
             courseDB = Course(
                 id=course["id"],
-                subject=course["subject"],
+                subject=subject,
                 crse=course["crse"],
                 title=course["title"],
                 description=course["description"],

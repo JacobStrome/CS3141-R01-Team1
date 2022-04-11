@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.db import models
 
 # Create your models here.
@@ -78,10 +79,24 @@ class Semester(models.Model):
             "semester": self.semester
         }
 
+class Subject(models.Model):
+    ticker = models.CharField(max_length=5, primary_key=True)
+
+    def __str__(self):
+        return self.ticker
+    def getDict(self):
+        output = {
+            "ticker" : self.ticker,
+            "courses" : [course.id for course in self.courses.all()]
+        }
+        return output
+
+    
+
 class Course(models.Model):
     id = models.CharField(max_length=30, primary_key=True)
     semesters = models.ManyToManyField(Semester, symmetrical=False)
-    subject = models.CharField(max_length=4)
+    subject = models.ForeignKey(Subject, related_name='courses', on_delete=models.CASCADE)
     crse = models.CharField(max_length=4)
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -90,13 +105,13 @@ class Course(models.Model):
     prereqs = models.ManyToManyField("self", symmetrical=False)
 
     def __str__(self):
-        return self.subject + self.crse + " " + self.title
+        return self.subject.ticker + self.crse + " " + self.title
 
     def getDict(self):
         output = {
             "id": self.id,
             "semester": [semester.pk for semester in self.semesters.all()],
-            "subject": self.subject,
+            "subject": self.subject.ticker,
             "crse": self.crse,
             "title": self.title,
             "descripton": self.description,
