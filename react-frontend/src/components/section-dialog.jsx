@@ -1,5 +1,6 @@
+import { BreakfastDiningOutlined } from '@mui/icons-material'
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@mui/material'
-import React, {useState} from 'react'
+import React, {useState} from "react"
 
 export default function SectionDialog(props){
 
@@ -34,7 +35,39 @@ export default function SectionDialog(props){
         return outputString //returns the completed string
     }
 
+    
+    // find all the prereqs for the current course
+    const getPrereqs = (course) =>{
 
+        var output = ""
+
+        // inital check for prereq classes
+        if (course.prereqs[0] == null){
+            output = "No prerequisite class"
+            return output
+        }
+
+        var objlength = Object.keys(props.courses).length
+
+        var PrereqsForCurrentCourse = course.prereqs
+
+        // for each one of the prereqs, find the details on them from 'courses' since we only have the string
+        for (var prereqIndex = 0; prereqIndex < PrereqsForCurrentCourse.length; prereqIndex++){
+            // get current prereq id string
+            var currentPrereqCourseIDString = PrereqsForCurrentCourse[prereqIndex]   
+            var potentialCourse = props.courses[currentPrereqCourseIDString]
+
+            // if it's the ID we are looking for add it to output
+            if (potentialCourse.id === currentPrereqCourseIDString){
+                output = output.concat(potentialCourse.subject + " " + potentialCourse.crse + ", ")
+                 
+            }
+            
+        }
+
+        return output
+    }
+    
 
     return(
         <Dialog open={props.open} fullWidth maxWidth = "md">
@@ -46,6 +79,7 @@ export default function SectionDialog(props){
                     {props.section.buildingName && `Building: ${props.section.buildingName} Room: ${props.section.room}`}
                     {!props.section.buildingName && `Taught Online`}<br/>
                     {getTimes(props.section).length > 0 && `Times: ${getTimes(props.section)}`}
+                    Prereqs: {getPrereqs(props.course)}
                 </DialogContentText>
                 <DialogActions>
                     <Button onClick={props.handleClose}>Close</Button>

@@ -53,7 +53,6 @@ export class App extends React.Component {
           <div className="row container p-4">
             {/*Div for class search results*/}
             <SchedulerTable courses={this.state.courses} searchTerm={this.state.currentSearch} addCourses={this.addCourses} />
-
             {/*div for calendar*/}
             <Calendar sections={this.state.currentSections} />
           </div>
