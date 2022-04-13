@@ -1,4 +1,4 @@
-import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
+import { FormControl, Grid, InputLabel, MenuItem, Select, Stack, Divider } from '@mui/material'
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import TableRow from './table-row'
@@ -6,7 +6,7 @@ import TableRow from './table-row'
 export default function TableContainer(props){
     const [subjects, setSubjects] = useState([])
     const [semesters, setSemesters] = useState([])
-    const [semester, setSemester] = useState(1)
+    const [semester, setSemester] = useState()
     const [degree, setDegree] = useState(1)
 
     useEffect(()=>{
@@ -25,7 +25,7 @@ export default function TableContainer(props){
     
     return (
         <Grid item xs={4} marginTop={4}>
-            <Grid container columns={4} spacing={2} justifyItems="center">
+            <Grid container columns={4} spacing={2}>
                 <Grid item xs={2}>
                     <FormControl fullWidth>
                         <InputLabel>Semester</InputLabel>
@@ -42,13 +42,12 @@ export default function TableContainer(props){
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={4}>
-                    <div style={{ borderTop: "2px solid #555 ", marginLeft: 5, marginRight: 5 }}/>
-                </Grid>
-                {
-                subjects.map((subject) => (<TableRow subject={subject}/>))
-                }
             </Grid>
+            
+            <Stack spacing={1} sx={{height: "75vh", overflow: "auto", marginTop: "16px"}} divider={<Divider orientation="vertical" flexItem />}>
+                {subjects.map((subject) => (<TableRow key={subject.ticker} subject={subject}/>))} 
+            </Stack>
+
 
         </Grid>
     )

@@ -6,16 +6,18 @@ export default function TableRow(props){
     const[open, setOpen] = useState(false) //Sets the initial dropdown to false aka not shown
 
     return(
-        <React.Fragment>
+        <Grid container columns={4} columnSpacing ={2}>
             <Grid item xs={1}>
                 <IconButton aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
                   {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
                 </IconButton>
             </Grid>
             <Grid item xs={3}>
-                <Typography justifyContent={"center"}>{props.subject.ticker}</Typography>
+                <div style={{textAlign: "center", display: "flex", height:"100%", justifyContent: "center", alignItems: "center"}}>
+                    <Typography variant='h5'>{props.subject.ticker}</Typography>
+                </div>
             </Grid>
-        </React.Fragment>
+        </Grid>
 
     )
 }
