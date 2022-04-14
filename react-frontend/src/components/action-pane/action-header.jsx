@@ -8,9 +8,12 @@ export default function ActionHeader(props){
         <Paper>
             <Grid container columnSpacing={2} columns={8} justifyItems="center" alignItems="center" marginTop={0}>
                 <Grid item xs={1}>
-                    <IconButton aria-label="download schedule" size="large" onClick={props.onBackArrowClicked}>
-                          <ArrowBack/>
-                    </IconButton>
+                    { props.currentHeader != "Calendar" &&
+                        <IconButton aria-label="download schedule" size="large" onClick={props.onBackArrowClicked}>
+                            <ArrowBack/>
+                        </IconButton>
+                    }
+
                 </Grid>
                 <Grid item  xs={6}>
                 <div style={{textAlign: "center", display: "flex", height:"100%", justifyContent: "center", alignItems: "center"}}>

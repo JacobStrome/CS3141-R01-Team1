@@ -5,7 +5,7 @@ export default function CoursePane(props){
 
     return (
         <Paper>
-            {props.course}
+            {props.course.title}
         </Paper>
     )
 }
