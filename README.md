@@ -33,7 +33,7 @@ If for some reason the database needs to be rebuilt there are a couple of action
 first the migrations dirctories within schedulerBackend/api needs to be deleted along with schedulerBackend/db.sqlite3 .
 Once these files are deleted the following commands must be run in order:
 
-`python3 -m manage.py makemigrations`<br/>
+`python3 -m manage.py makemigrations api`<br/>
 `python3 -m manage.py migrate`<br/>
 `python3 -m manage.py pullcourses`<br/>
 
