@@ -12,14 +12,14 @@ export default function ActionPane(props){
     useEffect(() => {
         if(props.currentCourse){
             axios.get('http://127.0.0.1:8000/api/courses/' + props.currentCourse).then((response) => {
-                setNavStack([<Calendar/>, <CoursePane course={response.data}/>])
+                setNavStack([<Calendar/>, <CoursePane course={response.data} currentSemester={props.currentSemester}/>])
                 setHeaderStack(["Calendar", response.data.subject + response.data.crse + " " + response.data.title])
             }).catch((error) => {
                 console.warn("Could not fetch course " +props.currentCourse)
             })
         }
         
-    }, [props.currentCourse])
+    }, [props.currentCourse, props.currentSemester])
 
     useEffect(() => {
         if(props.currentCourse && props.onNavReset && navStack.length == 1) props.onNavReset()

@@ -14,15 +14,14 @@ export default function App(props){
   const handleCourseClick = (event, course) =>{
     setCurrentCourse(course)
   }
-
   const theme = createTheme({ palette: { mode: 'light' } })
   return (
     <div style={{ paddingLeft: 32, paddingRight:32, paddingTop: 16}}>
       <ThemeProvider theme={theme}>
         <Grid container spacing={2} justifyItems="center" alignItems="center">
           <Navbar onChange={(event) => setSearchTerm(event.target.value)}/>
-          <TableContainer searchTerm={searchTerm} onCourseClick={handleCourseClick} onSemChange={setCurrentSemester}/>
-          <ActionPane currentCourse={currentCourse} onNavReset={() => setCurrentCourse(undefined)}/>
+          <TableContainer searchTerm={searchTerm} onCourseClick={handleCourseClick} onSemChange={(semester) => setCurrentSemester(semester)}/>
+          <ActionPane currentCourse={currentCourse} onNavReset={() => setCurrentCourse(undefined)} currentSemester={currentSemester}/>
         </Grid>
       </ThemeProvider>
     </div>

@@ -2,16 +2,36 @@ from unicodedata import name
 from django.db import models
 
 # Create your models here.
+
+
+
+class Semester(models.Model):
+    year = models.IntegerField()
+    semester = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.semester + " " +str(self.year)
+
+    def getDict(self):
+        return {
+            "id" : self.pk,
+            "year" : self.year,
+            "semester": self.semester,
+            "courses" : [course.id for course in self.course_set.all()]
+        }
+
 class Section(models.Model):
     id = models.CharField(max_length=30, primary_key=True)
     crn = models.CharField(max_length=7)
     section = models.CharField(max_length=5)
     credits = models.IntegerField()
+    instructor = models.TextField()
     totalSeats = models.IntegerField()
     takenSeats = models.IntegerField()
     availableSeats = models.IntegerField()
     buildingName = models.CharField(max_length=50)
     room = models.CharField(max_length=10)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     startTime = models.TimeField()
     endTime = models.TimeField()
     startDate = models.DateField()
@@ -47,11 +67,13 @@ class Section(models.Model):
             "crn": self.crn,
             "section": self.section,
             "credits": self.credits,
+            "instructor": self.instructor,
             "totalSeats": self.totalSeats,
             "takenSeats": self.takenSeats,
             "availableSeats": self.availableSeats,
             "buildingName": self.buildingName,
             "room": self.room,
+            "semester": self.semester.pk,
             "startTime": self.startTime,
             "endTime": self.endTime,
             "startDate": self.startDate,
@@ -63,22 +85,6 @@ class Section(models.Model):
             "friday": self.friday,
         }
         return output
-
-
-class Semester(models.Model):
-    year = models.IntegerField()
-    semester = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.semester + " " +str(self.year)
-
-    def getDict(self):
-        return {
-            "id" : self.pk,
-            "year" : self.year,
-            "semester": self.semester,
-            "courses" : [course.id for course in self.course_set.all()]
-        }
 
 class Subject(models.Model):
     ticker = models.CharField(max_length=5, primary_key=True)

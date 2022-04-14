@@ -25,19 +25,13 @@ class Command(BaseCommand):
                 uniqueCourses[course['subject'] + course['crse']]['semesters'].add((course['year'],course['semester']))
             else:
                 uniqueCourses[course['subject'] + course['crse']] = course
-                uniqueCourses[course['subject'] + course['crse']]['repeatIds'] = set()
+                uniqueCourses[course['subject'] + course['crse']]['repeatIds'] = set([course['id']])
                 uniqueCourses[course['subject'] + course['crse']]['semesters'] = set([(course['year'],course['semester'])])
         
         return {course['id'] : course for course in uniqueCourses.values()}
 
 
     def handle(self, *args, **kwargs):
-
-
-
-        print("starting sections request")
-        sections = requests.get("https://api.michigantechcourses.com/sections").json()
-        print("finishing sections request")
 
         coursesDict = self.getUniqueCourses()
 
@@ -125,10 +119,31 @@ class Command(BaseCommand):
         # Loops through all the sections and adds it to the corrisponding course's sections key
         print("starting section database additions")
 
-        courseIdMatch = {course['id'] : course['repeatIds'] for course in coursesDict.values()}
+        print("starting sections request")
+        sections = requests.get("https://api.michigantechcourses.com/sections").json()
+        print("finishing sections request")
+
+
+        print("starting instructors request")
+        instructors = requests.get("https://api.michigantechcourses.com/instructors").json()
+        print("finishing instructors request")
+        instructors = {instructor['id'] : instructor for instructor in instructors}
+
+
+        courseIdMatch = {course['id'] : (course['repeatIds'], course['semesters']) for course in coursesDict.values()}
 
         for section in sections:
 
+            courseID = ""
+            courseYear = ""
+
+            for key in courseIdMatch.keys():
+                l = courseIdMatch[key]
+                if(section["courseId"] in l[0]):
+                    courseYear = list(l[1])[list(l[0]).index(section["courseId"])]
+                    courseID = key
+            
+            courseYear = Semester.objects.filter(year = courseYear[0], semester = courseYear[1])[0]
             sectionDB = Section(
                 id=section["id"],
                 crn=section["crn"],
@@ -137,7 +152,12 @@ class Command(BaseCommand):
                 totalSeats=section["totalSeats"],
                 takenSeats=section["takenSeats"],
                 availableSeats=section["availableSeats"],
+                semester = courseYear
             )
+            if len(section['instructors']) > 0:
+                sectionDB.instructor=instructors[section['instructors'][0]['id']]['fullName']
+            else:
+                sectionDB.instructor = ""
             if type(section["buildingName"]) is str:
                 sectionDB.buildingName = section["buildingName"]
             else:
@@ -184,12 +204,5 @@ class Command(BaseCommand):
                 sectionDB.thursday = False
                 sectionDB.friday = False
             sectionDB.save()
-            if section["courseId"] in courseIdMatch:
-                Course.objects.get(id=section["courseId"]).sections.add(sectionDB)
-            else:
-                for key in courseIdMatch.keys():
-                    l = courseIdMatch[key]
-                    if(section["courseId"] in l):
-                        Course.objects.get(id=key).sections.add(sectionDB)
-
+            Course.objects.get(id=courseID).sections.add(sectionDB)
         print("finishing section database additions")
