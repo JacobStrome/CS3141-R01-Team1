@@ -80,7 +80,7 @@ export default function SchedulerTable(props){
     subjectDict[subject].sort((courseA, courseB) =>(
       parseInt(courseA.crse) - parseInt(courseB.crse) //sorts the courses within the dictionary by course number
     ))
-    return (<SubjectTable key={subject} subject={subject} courses={subjectDict[subject]} onChange={(event, crns) => selectionChanged(event, crns, subject)}/>)
+    return (<SubjectTable key={subject} allCourses={props.courses} subject={subject} courses={subjectDict[subject]} onChange={(event, crns) => selectionChanged(event, crns, subject)}/>)
   }) 
 
   return(
