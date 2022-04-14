@@ -44,6 +44,8 @@ class Command(BaseCommand):
                 course["description"] = ""
             if course["title"] is None:
                 course["title"] = ""
+            if course['prereqs'] is None:
+                course['prereqs'] = ""
 
             subject = Subject(ticker = course['subject'])
             try:
@@ -59,6 +61,7 @@ class Command(BaseCommand):
                 title=course["title"],
                 description=course["description"],
                 credits=course["maxCredits"],
+                prereqString = course['prereqs']
             )
             courseDB.save() #save the course to the DB
 

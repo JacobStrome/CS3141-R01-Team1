@@ -109,6 +109,7 @@ class Course(models.Model):
     description = models.TextField()
     credits = models.IntegerField()
     sections = models.ManyToManyField(Section, symmetrical=False)
+    prereqString = models.TextField()
     prereqs = models.ManyToManyField("self", symmetrical=False)
 
     def __str__(self):
@@ -124,6 +125,7 @@ class Course(models.Model):
             "descripton": self.description,
             "credits": self.credits,
             "sections": [section.id for section in self.sections.all()],
+            "prereqString" : self.prereqString,
             "prereqs": [prereq.id for prereq in self.prereqs.all()],
         }
         return output
