@@ -42,11 +42,11 @@ export default function TableContainer(props){
     }
     
     return (
-        <Grid item xs={4} marginTop={4}>
+        <Grid item xs={4} marginTop={4} >
             {(semesters.length>0 && semester) &&
-                <Paper>
-                    <Grid container columns={4} spacing={2}>
-                        <Grid item xs={2}>
+                <Paper >
+                    <Grid container columns={4} spacing={0} width="95%" marginLeft="2.5%" paddingTop="2.5%">
+                        <Grid item xs={2} paddingRight="16px">
                             <FormControl fullWidth>
                                 <InputLabel>Semester</InputLabel>
                                 <Select fullWidth value={semester} label="Semester" onChange={(event) => setSemester(event.target.value)}>
