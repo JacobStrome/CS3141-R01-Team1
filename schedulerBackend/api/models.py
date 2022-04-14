@@ -76,7 +76,8 @@ class Semester(models.Model):
         return {
             "id" : self.pk,
             "year" : self.year,
-            "semester": self.semester
+            "semester": self.semester,
+            "courses" : [course.id for course in self.course_set.all()]
         }
 
 class Subject(models.Model):
