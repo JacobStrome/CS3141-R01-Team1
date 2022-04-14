@@ -4,14 +4,15 @@ import Navbar from './components/navbar'
 import React, { useState } from 'react';
 import {createTheme, Grid, ThemeProvider } from '@mui/material';
 import TableContainer from './components/left-navigation/table-container';
+import ActionPane from './components/action-pane/action-pane';
 
 
 export default function App(props){
-  const [navStack, setNavStack] = useState([])
+  const [currentCourse, setCurrentCourse] = useState(undefined)
   const [searchTerm, setSearchTerm] = useState("")
   const [currentSemester, setCurrentSemester] = useState({})
   const handleCourseClick = (event, course) =>{
-    setNavStack([course])
+    setCurrentCourse(course)
   }
 
   const theme = createTheme({ palette: { mode: 'light' } })
@@ -21,6 +22,7 @@ export default function App(props){
         <Grid container spacing={2} justifyItems="center" alignItems="center">
           <Navbar onChange={(event) => setSearchTerm(event.target.value)}/>
           <TableContainer searchTerm={searchTerm} onCourseClick={handleCourseClick} onSemChange={setCurrentSemester}/>
+          <ActionPane currentCourse={currentCourse} onNavReset={() => setCurrentCourse(undefined)}/>
         </Grid>
       </ThemeProvider>
     </div>

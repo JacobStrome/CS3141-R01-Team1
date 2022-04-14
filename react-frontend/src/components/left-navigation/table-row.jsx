@@ -16,7 +16,6 @@ export default function TableRow(props){
             })
             Promise.all(promises).then((responses)=>{
                 const rawCourses = responses.map((response)=> response.data)
-                console.log(props.searchTerm)
 
                 const filteredCourses = rawCourses.filter((course) => (course.subject + course.crse+course.title).indexOf(props.searchTerm) != -1)
 
