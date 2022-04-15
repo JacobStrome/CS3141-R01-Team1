@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import {createTheme, Grid, ThemeProvider } from '@mui/material';
 import TableContainer from './components/left-navigation/table-container';
 import ActionPane from './components/action-pane/action-pane';
+import { jsPDF } from "jspdf";
 
 
 export default function App(props){
@@ -14,12 +15,23 @@ export default function App(props){
   const handleCourseClick = (event, course) =>{
     setCurrentCourse(course)
   }
+  const downloadSchedule = ()=>{
+    const doc = new jsPDF('portrait', 'pt', 'a4');
+    const cal = document.getElementById("calendar");
+
+    if (cal) {
+      console.log(cal);
+      doc.html(cal).then(()=>{
+        doc.save("schedule.pdf");
+      })
+    }
+  }
   const theme = createTheme({ palette: { mode: 'light' } })
   return (
     <div style={{ paddingLeft: 32, paddingRight:32, paddingTop: 16}}>
       <ThemeProvider theme={theme}>
         <Grid container spacing={2} justifyItems="center" alignItems="center">
-          <Navbar onChange={(event) => setSearchTerm(event.target.value)}/>
+          <Navbar onChange={(event) => setSearchTerm(event.target.value)} downloadSchedule={downloadSchedule}/>
           <TableContainer searchTerm={searchTerm} onCourseClick={handleCourseClick} onSemChange={(semester) => setCurrentSemester(semester)}/>
           <ActionPane currentCourse={currentCourse} onNavReset={() => setCurrentCourse(undefined)} currentSemester={currentSemester}/>
         </Grid>

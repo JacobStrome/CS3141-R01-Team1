@@ -5,7 +5,7 @@ export default class Calendar extends React.Component {
 
   render() {
     return (
-      <div className="col-7">
+      <div id="calendar" className="col-7">
         <table>
           <col className="time-label"></col>
           <col className="calendar-col"></col>

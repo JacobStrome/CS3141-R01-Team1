@@ -27,7 +27,7 @@ export default class Navbar extends React.Component{
             <Grid item xs={5}/>
             <Grid item xs={1}>
               <div id="download-button">
-                <IconButton aria-label="download schedule" size="large">
+                <IconButton aria-label="download schedule" size="large" onClick={this.props.downloadSchedule}>
                   <DownloadIcon/>
                 </IconButton>
               </div>
