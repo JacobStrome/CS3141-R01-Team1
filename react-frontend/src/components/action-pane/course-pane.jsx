@@ -36,9 +36,9 @@ export default function CoursePane(props){
     },[props.course])
 
     const getPrereqs = ()=>{
-        const initialString = course.prereqString
+        const initialString = props.course.prereqString
         const prereqsAsStrings = prereqs.map((prereq) => (prereq.subject + " " + prereq.crse))
-        
+
     }
 
     return (
