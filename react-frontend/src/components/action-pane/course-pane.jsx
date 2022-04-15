@@ -5,6 +5,7 @@ import SectionButton from './section-button';
 
 export default function CoursePane(props){
     const [sections, setSections] = useState([])
+    const [prereqs, setPrereqs] = useState([])
 
     useEffect(() => {
         const promises = []
@@ -20,40 +21,61 @@ export default function CoursePane(props){
         }).catch((error) =>{
             console.warn("Failed to fetch sections")
         })
-    },[props.currentSemester])
+    },[props.currentSemester, props.course])
+
+    useEffect(() => {
+        const promises = []
+        props.course.prereqs.forEach((prereq) => {
+            promises.push(axios.get('http://127.0.0.1:8000/api/courses/' + prereq))
+        })
+        Promise.all(promises).then((responses) => {
+            setPrereqs(responses.map((response)=>response.data))
+        }).catch((error) => {
+            console.warn("Failed to fetch prereqs")
+        })
+    },[props.course])
+
+    const getPrereqs = ()=>{
+        const initialString = course.prereqString
+        const prereqsAsStrings = prereqs.map((prereq) => (prereq.subject + " " + prereq.crse))
+        
+    }
+
     return (
-        <Paper>
-            <Stack divider={<Divider orientation="vertical" flexItem />} spacing={2} marginTop="16px">
-                <Typography>
-                    {props.course.descripton}
-                </Typography>
-                <Typography>
-                    {props.course.prereqs}
-                </Typography>
-                <Grid container columnSpacing={2} columns={8} justifyItems="center" alignItems="center" marginTop={0}>
-                    <Grid item xs={1}>
-                        <Typography>Name</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Typography>Credits</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Typography>Days</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography>Time</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography>Instructor</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Typography>Seats Open</Typography>
-                    </Grid>
+        <React.Fragment>
+            <Typography padding={1}>
+                {props.course.descripton}
+            </Typography>
+            <Divider orientation="vertical" flexItem />
+            <Typography padding={1}>
+                {getPrereqs}
+            </Typography>
+            <Divider orientation="vertical" flexItem />
+            <Grid container columnSpacing={2} columns={8} justifyItems="center" alignItems="center" marginTop={0} padding={1}>
+                <Grid item xs={1}>
+                    <Typography align="center">Name</Typography>
                 </Grid>
-                {sections.length>0 &&
-                        sections.map((section) => <SectionButton key={section.id} section={section}/>)
-                    }
+                <Grid item xs={1}>
+                    <Typography align="center">Credits</Typography>
+                </Grid>
+                <Grid item xs={1}>
+                    <Typography align="center">Days</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography align="center">Time</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography align="center">Instructor</Typography>
+                </Grid>
+                <Grid item xs={1}>
+                    <Typography align="center">Seats Open</Typography>
+                </Grid>
+            </Grid>
+            <Divider orientation="vertical" flexItem />
+            <Stack divider={<Divider orientation="vertical" flexItem />} spacing={2} marginTop="16px" padding={1} sx={{height:"58vh", overflow:"auto"}}>
+                {sections.length>0 && sections.map((section) => <SectionButton key={section.id} section={section}/>)}
             </Stack>
-        </Paper>
+        </React.Fragment>
+
     )
 }

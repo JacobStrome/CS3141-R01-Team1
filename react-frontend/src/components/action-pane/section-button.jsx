@@ -14,7 +14,7 @@ export default function SectionButton(props){
     }
     return(
             <Button fullWidth variant={"outlined"} onClick={(event) =>{if(props.onClick) props.onClick(event)}}>
-                <Grid container columns={8} spacing ={2} width={"100%"}>
+                <Grid container columns={8} spacing ={2} width={"100%"} marginLeft="0px">
                     <Grid item xs={1}>
                         <Typography>{props.section.section}</Typography>
                     </Grid>
@@ -31,7 +31,7 @@ export default function SectionButton(props){
                         <Typography>{props.section.instructor}</Typography>
                     </Grid>
                     <Grid item xs={1}>
-                        <Typography>{props.section.section}</Typography>
+                        <Typography>{props.section.availableSeats}</Typography>
                     </Grid>
                 </Grid>
             </Button>

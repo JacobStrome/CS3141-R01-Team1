@@ -45,8 +45,8 @@ export default function TableContainer(props){
     return (
         <Grid item xs={4} marginTop={4} >
             {(semesters.length>0 && semester) &&
-                <Paper >
-                    <Grid container columns={4} spacing={0} width="95%" marginLeft="2.5%" paddingTop="2.5%">
+                <Paper>
+                    <Grid container columns={4} spacing={0} width="95%" marginLeft="2.5%" paddingTop="2vh" height="8vh">
                         <Grid item xs={2} paddingRight="16px">
                             <FormControl fullWidth>
                                 <InputLabel>Semester</InputLabel>
@@ -65,7 +65,7 @@ export default function TableContainer(props){
                         </Grid>
                     </Grid>
                 
-                    <Stack spacing={1} sx={{height: "74vh", overflow: "auto", marginTop: "16px", paddingRight: "16px"}} divider={<Divider orientation="vertical" flexItem />}>
+                    <Stack spacing={1} sx={{height: "75vh", overflow: "auto", marginTop: "16px", paddingRight: "16px"}} divider={<Divider orientation="vertical" flexItem />}>
                         {subjects.sort((a,b)=> a.ticker.localeCompare(b.ticker)).map((subject) => (<TableRow key={subject.ticker} searchTerm={props.searchTerm} subject={subject} semester={semester} onCourseClick={onCourseClick}/>))} 
                     </Stack>
                 </Paper>

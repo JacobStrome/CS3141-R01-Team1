@@ -33,7 +33,7 @@ export default function ActionPane(props){
 
     return (
         <Grid item xs={8} alignSelf="flex-start" marginTop={4}>
-            <Paper sx={{height: "50vh"}}>
+            <Paper sx={{height: "85vh"}}>
                 <ActionHeader onBackArrowClicked={(event) => onBackArrowClicked()} currentHeader={headerStack[headerStack.length-1]}/>
                 {navStack[navStack.length-1]}
             </Paper>
