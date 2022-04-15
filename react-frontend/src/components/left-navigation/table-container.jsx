@@ -27,9 +27,10 @@ export default function TableContainer(props){
             axios.get('http://127.0.0.1:8000/api/subjects').then((response)=>{
                 const newSubjects = Object.values(response.data)
                 newSubjects.forEach((subject)=>{
-                    subject.courses = subject.courses.filter((course) => semester.courses.indexOf(course))
+                    subject.courses = subject.courses.filter((course) => semester.courses.indexOf(course)>-1)
                 })
-                setSubjects(newSubjects)
+
+                setSubjects(newSubjects.filter((subject) => subject.courses.length>0))
             }).catch((error) =>{
                 console.warn("Failed to fetch subjects")
             })
@@ -65,7 +66,7 @@ export default function TableContainer(props){
                     </Grid>
                 
                     <Stack spacing={1} sx={{height: "74vh", overflow: "auto", marginTop: "16px", paddingRight: "16px"}} divider={<Divider orientation="vertical" flexItem />}>
-                        {subjects.sort((a,b)=> a.ticker.localeCompare(b.ticker)).map((subject) => (<TableRow key={subject.ticker} searchTerm={props.searchTerm} subject={subject} onCourseClick={onCourseClick}/>))} 
+                        {subjects.sort((a,b)=> a.ticker.localeCompare(b.ticker)).map((subject) => (<TableRow key={subject.ticker} searchTerm={props.searchTerm} subject={subject} semester={semester} onCourseClick={onCourseClick}/>))} 
                     </Stack>
                 </Paper>
             }

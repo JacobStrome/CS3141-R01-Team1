@@ -26,6 +26,9 @@ export default function TableRow(props){
             })
         }
     }, [open,props.searchTerm])
+    useEffect(()=> {
+        if(open) setOpen(false)
+    },[props.semester])
 
     const onCourseClick = (event, course) =>{
         if(props.onCourseClick)
