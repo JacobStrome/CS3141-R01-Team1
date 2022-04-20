@@ -7,26 +7,16 @@ import SectionPane from './section-pane';
 import axios from 'axios'
 
 export default function ActionPane(props){
-    const [navStack, setNavStack] =  useState([<Calendar/>])
-    const [headerStack, setHeaderStack] = useState(["Calendar"])
+    const [calendarSections, setCalendarSections] = useState([])
+    const [currentSection, setCurrentSection] = useState(undefined)
+    const [currentCourse, setCurrentCourse] = useState(undefined)
 
-    const sectionAddedToCalendar = (section, course)=>{
-
-    }
-    const sectionClicked = (event, section, course) => {
-        
-        const coursePane = <CoursePane course={course} currentSemester={props.currentSemester} sectionClicked={(event, sec) => sectionClicked(event, sec, course)}/>
-        const sectionPane = <SectionPane section={section} course = {course} addToCalendar={sectionAddedToCalendar}/>
-        const newNavStack = [<Calendar/>,coursePane, sectionPane]
-        setNavStack(newNavStack)
-        setHeaderStack(["Calendar", course.subject + course.crse + " " + course.title, course.subject + course.crse + " " + course.title])
-    }
 
     useEffect(() => {
         if(props.currentCourse){
             axios.get('http://127.0.0.1:8000/api/courses/' + props.currentCourse).then((response) => {
-                setNavStack([<Calendar/>, <CoursePane course={response.data} currentSemester={props.currentSemester} sectionClicked={(event, section) => sectionClicked(event, section, response.data)}/>])
-                setHeaderStack(["Calendar", response.data.subject + response.data.crse + " " + response.data.title])
+                setCurrentCourse(response.data)
+                setCurrentSection(undefined)
             }).catch((error) => {
                 console.warn("Could not fetch course " +props.currentCourse)
             })
@@ -34,21 +24,52 @@ export default function ActionPane(props){
         
     }, [props.currentCourse, props.currentSemester])
 
-    useEffect(() => {
-        if(props.currentCourse && props.onNavReset && navStack.length == 1) props.onNavReset()
-    },[navStack])
-
-
     const onBackArrowClicked = () => {
-        setNavStack(navStack.slice(0,-1))
-        setHeaderStack(headerStack.slice(0,-1))
+        if(currentSection) setCurrentSection(undefined)
+        else {
+            setCurrentCourse(undefined)
+            if(props.onNavReset) props.onNavReset()
+        }
     }
 
+    const sectionAddedToCalendar = (section, course)=>{
+        const calendarData = {
+            section : section,
+            course : course
+        }
+        const newSections = [...calendarSections, calendarData]
+        setCalendarSections(newSections)
+    }
+
+    const sectionClicked = (event, section, course) => {
+        
+        const coursePane = <CoursePane course={course} currentSemester={props.currentSemester} sectionClicked={(event, sec) => sectionClicked(event, sec, course)}/>
+        const sectionPane = <SectionPane section={section} course = {course} addToCalendar={sectionAddedToCalendar}/>
+        const newNavStack = [<Calendar sections={calendarSections} />,coursePane, sectionPane]
+        setCurrentSection(section)
+    }
+
+    const deleteSection = (sectionId)=>{
+        console.log("Test " + sectionId)
+        const newSections = calendarSections.filter((obj)=> obj.section.id != sectionId)
+        console.log(newSections)
+        setCalendarSections(newSections)
+    }
+
+
+    const coursePane = currentCourse ? <CoursePane course={currentCourse} currentSemester={props.currentSemester} sectionClicked={(event, section) => sectionClicked(event, section, currentCourse)}/> : undefined
+    const sectionPane = currentSection ? <SectionPane section={currentSection} course = {currentCourse} addToCalendar={sectionAddedToCalendar}/> : undefined
+
+    const paneToDisplay = sectionPane ?? coursePane
+
+    const elementToDisplay = paneToDisplay ?? <Calendar sections={calendarSections} deleteSection={(sectionId) => deleteSection(sectionId)}/>
+    const headerToDisplay = paneToDisplay ? currentCourse.subject + currentCourse.crse + " " + currentCourse.title : "Calendar"
+    
     return (
         <Grid item xs={8} alignSelf="flex-start" marginTop={4}>
-            <Paper sx={{height: "85vh"}}>
-                <ActionHeader onBackArrowClicked={(event) => onBackArrowClicked()} currentHeader={headerStack[headerStack.length-1]}/>
-                {navStack[navStack.length-1]}
+            <Paper sx={{height: "80vh"}}>
+                <ActionHeader onBackArrowClicked={(event) => onBackArrowClicked()} currentHeader={headerToDisplay}/>
+                {elementToDisplay}
             </Paper>
         </Grid>
     )
