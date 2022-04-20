@@ -42,22 +42,18 @@ export default function ActionPane(props){
     }
 
     const sectionClicked = (event, section, course) => {
-        
-        const coursePane = <CoursePane course={course} currentSemester={props.currentSemester} sectionClicked={(event, sec) => sectionClicked(event, sec, course)}/>
-        const sectionPane = <SectionPane section={section} course = {course} addToCalendar={sectionAddedToCalendar}/>
-        const newNavStack = [<Calendar sections={calendarSections} />,coursePane, sectionPane]
         setCurrentSection(section)
     }
 
     const deleteSection = (sectionId)=>{
         console.log("Test " + sectionId)
-        const newSections = calendarSections.filter((obj)=> obj.section.id != sectionId)
+        const newSections = calendarSections.filter((obj)=> obj.section.id !== sectionId)
         console.log(newSections)
         setCalendarSections(newSections)
     }
 
 
-    const coursePane = currentCourse ? <CoursePane course={currentCourse} currentSemester={props.currentSemester} sectionClicked={(event, section) => sectionClicked(event, section, currentCourse)}/> : undefined
+    const coursePane = currentCourse ? <CoursePane course={currentCourse} currentSemester={props.currentSemester} prereqClicked={(event,prereq) => setCurrentCourse(prereq)} sectionClicked={(event, section) => sectionClicked(event, section, currentCourse)}/> : undefined
     const sectionPane = currentSection ? <SectionPane section={currentSection} course = {currentCourse} addToCalendar={sectionAddedToCalendar}/> : undefined
 
     const paneToDisplay = sectionPane ?? coursePane

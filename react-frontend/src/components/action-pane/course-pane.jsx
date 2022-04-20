@@ -36,40 +36,32 @@ export default function CoursePane(props){
     },[props.course])
 
     const prereqButtonClicked = (event, prereq) =>{
-
+        if(props.prereqClicked) props.prereqClicked(event, prereq)
     }
 
     const getPrereqs = ()=>{
-        return " "
-        const prereqsAsStrings = prereqs.map((prereq) => prereq.subject + " " + prereq.crse)
-        const indexes = prereqsAsStrings.map((str) => props.courses.prereqString.indexOf(str))
+        let splitString = [props.course.prereqString]
+        prereqs.forEach((prereq) => {
+            const str = prereq.subject + " " + prereq.crse
+            const prereqButton = <Button id={prereq.id} onClick={(event) => prereqButtonClicked(event, prereq)}>{str}</Button>
+            const newSplitString = []
+            splitString.forEach((splitStr) => {
+                if(typeof splitStr === "string" && splitStr.indexOf(str)>-1){
+                    const split = splitStr.split(str)
+                    const splitToAdd = [split[0], prereqButton, split[1]]
+                    newSplitString.push(...splitToAdd)
+                }
+                else{
+                    newSplitString.push(splitStr)
+                }
+            })
+            splitString = newSplitString
+        })
+        return splitString
 
-        const finalJSX = []
-        const replacePrereqWithButton = (string, prereq) => {
-            const buttonText = prereq.subject + " " + prereq.crse
-            const indexToReplace = string.indexOf(buttonText)
-            if(indexToReplace>0){
-                console.log("Found:" + buttonText)
-                finalJSX.push(
-                    <React.Fragment>{string.slice(0,indexToReplace)}</React.Fragment>
-                )
-                finalJSX.push(
-                    <Button id={prereq.id} onClick={(event) => prereqButtonClicked(event, prereq)}>{buttonText}</Button>
-                )
-                return string.slice(indexToReplace+buttonText.length+1)
-            }
-            return string
-        }
-
-        const endString = prereqs.reduce(replacePrereqWithButton, props.course.prereqString)
-        finalJSX.push(<React.Fragment>{endString}</React.Fragment>)
-
-        return (
-            <React.Fragment>
-                {finalJSX}
-            </React.Fragment>
-        )
     }
+
+
 
 
 
