@@ -1,4 +1,4 @@
-import {Divider, Grid, Paper, Stack, Typography} from '@mui/material';
+import {Button, Divider, Grid, Stack, Typography} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SectionButton from './section-button';
@@ -15,7 +15,7 @@ export default function CoursePane(props){
         Promise.all(promises).then((responses)=>{
             const rawSections = responses.map((response)=> response.data)
             const filteredSections = rawSections.filter((section) => {
-                return section.semester == props.currentSemester.id
+                return section.semester === props.currentSemester.id
             })
             setSections(filteredSections)
         }).catch((error) =>{
@@ -35,10 +35,20 @@ export default function CoursePane(props){
         })
     },[props.course])
 
-    const getPrereqs = ()=>{
-        const initialString = props.course.prereqString
-        const prereqsAsStrings = prereqs.map((prereq) => (prereq.subject + " " + prereq.crse))
+    const prereqButtonClicked = (event, prereq) =>{
 
+    }
+
+    const getPrereqs = ()=>{
+        const prereqStringSection = <Typography padding={1}>{props.course.prereqString}</Typography>
+        const prereqButtons = prereqs.map((prereq)=> <Button id={prereq.id} onClick={(event) => prereqButtonClicked(event, prereq)}>{prereq.subject + " " + prereq.crse}</Button>)
+        return (
+            <React.Fragment>
+                {prereqStringSection}
+                <Divider orientation="vertical" flexItem />
+                {prereqButtons}
+            </React.Fragment>
+        )
     }
 
     return (
@@ -47,9 +57,7 @@ export default function CoursePane(props){
                 {props.course.descripton}
             </Typography>
             <Divider orientation="vertical" flexItem />
-            <Typography padding={1}>
-                {getPrereqs}
-            </Typography>
+            {getPrereqs()}
             <Divider orientation="vertical" flexItem />
             <Grid container columnSpacing={2} columns={8} justifyItems="center" alignItems="center" marginTop={0} padding={1}>
                 <Grid item xs={1}>

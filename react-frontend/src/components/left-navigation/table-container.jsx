@@ -8,6 +8,7 @@ export default function TableContainer(props){
     const [semesters, setSemesters] = useState([])
     const [semester, setSemester] = useState(undefined)
     const [degree, setDegree] = useState(1)
+    const semChange = props.onSemChange
 
     useEffect(()=>{
         axios.get('http://127.0.0.1:8000/api/semesters').then((response)=>{
@@ -34,9 +35,9 @@ export default function TableContainer(props){
             }).catch((error) =>{
                 console.warn("Failed to fetch subjects")
             })
-            if(props.onSemChange) props.onSemChange(semester)
+            if(semChange) semChange(semester)
         }
-    },[semester])
+    },[semester,semesters ,semChange])
 
     const onCourseClick = (event, course) => {
         if(props.onCourseClick) props.onCourseClick(event,course)
@@ -70,7 +71,7 @@ export default function TableContainer(props){
                     </Stack>
                 </Paper>
             }
-            {semesters.length == 0 && <Skeleton variant="rectangular"  height="80vh"/>}
+            {semesters.length === 0 && <Skeleton variant="rectangular"  height="80vh"/>}
         </Grid>
     )
 }

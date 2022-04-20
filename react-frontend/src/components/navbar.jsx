@@ -13,7 +13,7 @@ export default class Navbar extends React.Component{
         return(
           <React.Fragment>
             <Grid item xs={1}>
-              <img id="logo" src={logo}/>
+              <img id="logo" alt="MTU Logo" src={logo}/>
             </Grid>
             <Grid item xs={5}>
               <TextField fullWidth variant="filled" type='search' onChange={this.props.onChange} label='Search for a course' InputProps={{
