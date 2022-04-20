@@ -40,16 +40,38 @@ export default function CoursePane(props){
     }
 
     const getPrereqs = ()=>{
-        const prereqStringSection = <Typography padding={1}>{props.course.prereqString}</Typography>
-        const prereqButtons = prereqs.map((prereq)=> <Button id={prereq.id} onClick={(event) => prereqButtonClicked(event, prereq)}>{prereq.subject + " " + prereq.crse}</Button>)
+        return " "
+        const prereqsAsStrings = prereqs.map((prereq) => prereq.subject + " " + prereq.crse)
+        const indexes = prereqsAsStrings.map((str) => props.courses.prereqString.indexOf(str))
+
+        const finalJSX = []
+        const replacePrereqWithButton = (string, prereq) => {
+            const buttonText = prereq.subject + " " + prereq.crse
+            const indexToReplace = string.indexOf(buttonText)
+            if(indexToReplace>0){
+                console.log("Found:" + buttonText)
+                finalJSX.push(
+                    <React.Fragment>{string.slice(0,indexToReplace)}</React.Fragment>
+                )
+                finalJSX.push(
+                    <Button id={prereq.id} onClick={(event) => prereqButtonClicked(event, prereq)}>{buttonText}</Button>
+                )
+                return string.slice(indexToReplace+buttonText.length+1)
+            }
+            return string
+        }
+
+        const endString = prereqs.reduce(replacePrereqWithButton, props.course.prereqString)
+        finalJSX.push(<React.Fragment>{endString}</React.Fragment>)
+
         return (
             <React.Fragment>
-                {prereqStringSection}
-                <Divider orientation="vertical" flexItem />
-                {prereqButtons}
+                {finalJSX}
             </React.Fragment>
         )
     }
+
+
 
     return (
         <React.Fragment>
@@ -81,7 +103,7 @@ export default function CoursePane(props){
             </Grid>
             <Divider orientation="vertical" flexItem />
             <Stack divider={<Divider orientation="vertical" flexItem />} spacing={2} marginTop="16px" padding={1} sx={{height:"58vh", overflow:"auto"}}>
-                {sections.length>0 && sections.map((section) => <SectionButton key={section.id} section={section}/>)}
+                {sections.length>0 && sections.map((section) => <SectionButton onClick={(event) => {if(props.sectionClicked) props.sectionClicked(event, section)}} key={section.id} section={section}/>)}
             </Stack>
         </React.Fragment>
 
