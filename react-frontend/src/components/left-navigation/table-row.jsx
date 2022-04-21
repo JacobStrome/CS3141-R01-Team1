@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Divider, Grid, IconButton, Typography } from '@mui/material'
+import {Divider, Grid, IconButton, Typography } from '@mui/material'
 import { KeyboardArrowUp, KeyboardArrowDown} from '@mui/icons-material'
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
@@ -17,17 +17,17 @@ export default function TableRow(props){
             Promise.all(promises).then((responses)=>{
                 const rawCourses = responses.map((response)=> response.data)
 
-                const filteredCourses = rawCourses.filter((course) => (course.subject + course.crse+course.title).indexOf(props.searchTerm) != -1)
+                const filteredCourses = rawCourses.filter((course) => (course.subject + course.crse+course.title).indexOf(props.searchTerm) !== -1)
 
-                if(props.searchTerm.length!=0) setCourses(filteredCourses)
+                if(props.searchTerm.length!==0) setCourses(filteredCourses)
                 else setCourses(rawCourses)
             }).catch((error) =>{
                 console.warn("Failed to fetch courses")
             })
         }
-    }, [open,props.searchTerm])
+    }, [open,props.searchTerm, props.subject.courses])
     useEffect(()=> {
-        if(open) setOpen(false)
+        setOpen(false)
     },[props.semester])
 
     const onCourseClick = (event, course) =>{

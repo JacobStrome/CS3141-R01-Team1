@@ -1,4 +1,4 @@
-import {Divider, Grid, Paper, Stack, Typography} from '@mui/material';
+import {Button, Divider, Grid, Stack, Typography} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SectionButton from './section-button';
@@ -15,7 +15,7 @@ export default function CoursePane(props){
         Promise.all(promises).then((responses)=>{
             const rawSections = responses.map((response)=> response.data)
             const filteredSections = rawSections.filter((section) => {
-                return section.semester == props.currentSemester.id
+                return section.semester === props.currentSemester.id
             })
             setSections(filteredSections)
         }).catch((error) =>{
@@ -35,11 +35,35 @@ export default function CoursePane(props){
         })
     },[props.course])
 
+    const prereqButtonClicked = (event, prereq) =>{
+        if(props.prereqClicked) props.prereqClicked(event, prereq)
+    }
+
     const getPrereqs = ()=>{
-        const initialString = props.course.prereqString
-        const prereqsAsStrings = prereqs.map((prereq) => (prereq.subject + " " + prereq.crse))
+        let splitString = [props.course.prereqString]
+        prereqs.forEach((prereq) => {
+            const str = prereq.subject + " " + prereq.crse
+            const prereqButton = <Button id={prereq.id} onClick={(event) => prereqButtonClicked(event, prereq)}>{str}</Button>
+            const newSplitString = []
+            splitString.forEach((splitStr) => {
+                if(typeof splitStr === "string" && splitStr.indexOf(str)>-1){
+                    const split = splitStr.split(str)
+                    const splitToAdd = [split[0], prereqButton, split[1]]
+                    newSplitString.push(...splitToAdd)
+                }
+                else{
+                    newSplitString.push(splitStr)
+                }
+            })
+            splitString = newSplitString
+        })
+        return splitString
 
     }
+
+
+
+
 
     return (
         <React.Fragment>
@@ -47,9 +71,7 @@ export default function CoursePane(props){
                 {props.course.descripton}
             </Typography>
             <Divider orientation="vertical" flexItem />
-            <Typography padding={1}>
-                {getPrereqs}
-            </Typography>
+            {getPrereqs()}
             <Divider orientation="vertical" flexItem />
             <Grid container columnSpacing={2} columns={8} justifyItems="center" alignItems="center" marginTop={0} padding={1}>
                 <Grid item xs={1}>
@@ -73,7 +95,7 @@ export default function CoursePane(props){
             </Grid>
             <Divider orientation="vertical" flexItem />
             <Stack divider={<Divider orientation="vertical" flexItem />} spacing={2} marginTop="16px" padding={1} sx={{height:"58vh", overflow:"auto"}}>
-                {sections.length>0 && sections.map((section) => <SectionButton key={section.id} section={section}/>)}
+                {sections.length>0 && sections.map((section) => <SectionButton onClick={(event) => {if(props.sectionClicked) props.sectionClicked(event, section)}} key={section.id} section={section}/>)}
             </Stack>
         </React.Fragment>
 
