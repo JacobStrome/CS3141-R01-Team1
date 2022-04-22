@@ -25,8 +25,20 @@ export default function App(props){
       })
     }
   }
+  const theme = createTheme({ 
+    mode:'light',
+    palette: { 
+      primary: {
+        main: '#104dc7',
+      },
+      secondary: {
+        main: '#7e8187',
+      }
+    }
+  })
 
-  const theme = createTheme({ palette: { mode: 'light' } })
+
+
   return (
     <div style={{ paddingLeft: 32, paddingRight:32, paddingTop: 16}}>
       <ThemeProvider theme={theme}>

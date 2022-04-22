@@ -35,7 +35,7 @@ export default function TableRow(props){
     return(
         <Grid container columns={4} spacing={2} width={"100%"} marginLeft={0}>
             <Grid item xs={1}>
-                <IconButton aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
+                <IconButton color="primary" aria-label="expand row" size="small" onClick={()=> setOpen(!open)}>
                   {open ? <KeyboardArrowUp/> : <KeyboardArrowDown/>}
                 </IconButton>
             </Grid>

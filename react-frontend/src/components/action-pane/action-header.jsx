@@ -9,7 +9,7 @@ export default function ActionHeader(props){
             <Grid container columnSpacing={2} columns={8} justifyItems="center" alignItems="center" marginTop={0}>
                 <Grid item xs={1}>
                     { props.currentHeader !== "Calendar" &&
-                        <IconButton aria-label="download schedule" size="large" onClick={props.onBackArrowClicked}>
+                        <IconButton color="primary" aria-label="download schedule" size="large" onClick={props.onBackArrowClicked}>
                             <ArrowBack/>
                         </IconButton>
                     }
