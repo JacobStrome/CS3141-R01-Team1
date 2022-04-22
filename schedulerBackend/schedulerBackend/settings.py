@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-xgv-5+)hw#nswo5@j^-z_j$va8!)7%%8*x39+j=1o(-1vrq%iu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -75,7 +75,11 @@ WSGI_APPLICATION = "schedulerBackend.wsgi.application"
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8000",
+    "http://141.219.232.222:8000"
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Database

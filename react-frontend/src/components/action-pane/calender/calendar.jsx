@@ -52,11 +52,11 @@ export default function Calendar(props) {
 
     return (
       <Paper padding={1} sx={{height:"100%"}}>
-        <Scheduler data={data} >
-          <WeekView startDayHour={8} endDayHour={22} excludedDays={[0,6]}/>
-          <Appointments/>
-          <AppointmentTooltip  headerComponent={header}/>
-        </Scheduler>
+          <Scheduler data={data} >
+            <WeekView startDayHour={8} endDayHour={22} excludedDays={[0,6]}/>
+            <Appointments/>
+            <AppointmentTooltip  headerComponent={header}/>
+          </Scheduler>
       </Paper>
 
     )

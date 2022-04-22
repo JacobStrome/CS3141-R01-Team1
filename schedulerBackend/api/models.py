@@ -94,7 +94,7 @@ class Subject(models.Model):
     def getDict(self):
         output = {
             "ticker" : self.ticker,
-            "courses" : [course.id for course in self.courses.all()]
+            "courses" : [{course.id : (self.ticker+course.crse+" "+course.title)} for course in self.courses.all()]
         }
         return output
 

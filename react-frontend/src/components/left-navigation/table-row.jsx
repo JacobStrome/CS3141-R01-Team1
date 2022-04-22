@@ -12,14 +12,11 @@ export default function TableRow(props){
         if(open){
             const promises = []
             props.subject.courses.forEach((course)=>{
-                promises.push(axios.get('http://127.0.0.1:8000/api/courses/' + course))
+                promises.push(axios.get('http://141.219.232.222:8000/api/courses/' + Object.keys(course)[0]))
             })
             Promise.all(promises).then((responses)=>{
                 const rawCourses = responses.map((response)=> response.data)
-
-                const filteredCourses = rawCourses.filter((course) => (course.subject + course.crse+course.title).indexOf(props.searchTerm) !== -1)
-
-                if(props.searchTerm.length!==0) setCourses(filteredCourses)
+                if(props.searchTerm.length!==0) setCourses(rawCourses)
                 else setCourses(rawCourses)
             }).catch((error) =>{
                 console.warn("Failed to fetch courses")

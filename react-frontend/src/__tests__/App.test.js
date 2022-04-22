@@ -42,7 +42,7 @@ it('api call correctly formatted', ()=> {
     act(() => {
         ReactDOM.render(<App/>, div)
     })
-    expect(spy).toHaveBeenCalledWith('http://127.0.0.1:8000/api/courses')
+    expect(spy).toHaveBeenCalledWith('http://141.219.232.222:8000/api/courses')
     
 })
 

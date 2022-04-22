@@ -10,13 +10,15 @@ export default function CoursePane(props){
     useEffect(() => {
         const promises = []
             props.course.sections.forEach((section)=>{
-                promises.push(axios.get('http://127.0.0.1:8000/api/sections/' + section))
+                promises.push(axios.get('http://141.219.232.222:8000/api/sections/' + section))
             })
         Promise.all(promises).then((responses)=>{
             const rawSections = responses.map((response)=> response.data)
+            console.log(props.currentSemester.id)
             const filteredSections = rawSections.filter((section) => {
                 return section.semester === props.currentSemester.id
             })
+            console.log(filteredSections)
             setSections(filteredSections)
         }).catch((error) =>{
             console.warn("Failed to fetch sections")
@@ -26,7 +28,7 @@ export default function CoursePane(props){
     useEffect(() => {
         const promises = []
         props.course.prereqs.forEach((prereq) => {
-            promises.push(axios.get('http://127.0.0.1:8000/api/courses/' + prereq))
+            promises.push(axios.get('http://141.219.232.222:8000/api/courses/' + prereq))
         })
         Promise.all(promises).then((responses) => {
             setPrereqs(responses.map((response)=>response.data))
@@ -60,10 +62,6 @@ export default function CoursePane(props){
         return splitString
 
     }
-
-
-
-
 
     return (
         <React.Fragment>

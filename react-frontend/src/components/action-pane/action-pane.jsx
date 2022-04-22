@@ -11,10 +11,10 @@ export default function ActionPane(props){
     const [currentSection, setCurrentSection] = useState(undefined)
     const [currentCourse, setCurrentCourse] = useState(undefined)
 
-
+    console.count("Action Rerender")
     useEffect(() => {
         if(props.currentCourse){
-            axios.get('http://127.0.0.1:8000/api/courses/' + props.currentCourse).then((response) => {
+            axios.get('http://141.219.232.222:8000/api/courses/' + props.currentCourse).then((response) => {
                 setCurrentCourse(response.data)
                 setCurrentSection(undefined)
             }).catch((error) => {
@@ -46,9 +46,7 @@ export default function ActionPane(props){
     }
 
     const deleteSection = (sectionId)=>{
-        console.log("Test " + sectionId)
         const newSections = calendarSections.filter((obj)=> obj.section.id !== sectionId)
-        console.log(newSections)
         setCalendarSections(newSections)
     }
 

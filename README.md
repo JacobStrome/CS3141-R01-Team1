@@ -13,9 +13,9 @@ In order to run the webserver please use the commands:
 
 After starting up the server multiple endpoints will be exposed including:
 
-***http://127.0.0.1:8000/*** which directs to the production react application (NOTE THIS IS NOT A LIVE EDIT ENVIRONMENT)<br/>
-***http://127.0.0.1:8000/api/classes*** which returns json data with course information<br/>
-***http://127.0.0.1:8000/admin*** which allows access to the database (NOTE ACCOUNT REQUIRED BEFORE ENTRY SEE BELOW)<br/>
+***http://141.219.232.222:8000/*** which directs to the production react application (NOTE THIS IS NOT A LIVE EDIT ENVIRONMENT)<br/>
+***http://141.219.232.222:8000/api/classes*** which returns json data with course information<br/>
+***http://141.219.232.222:8000/admin*** which allows access to the database (NOTE ACCOUNT REQUIRED BEFORE ENTRY SEE BELOW)<br/>
 
 ### Backend Admin Account Creation
 
@@ -67,13 +67,13 @@ In order to build the production version of the front end for final deployment t
 `npm run build` in order to start build the production version<br/>
 
 The outputted production build can be found at react-frontend/build with react-frontend/build/index.html being the entrypoint
-for the application. If the backend server is running the production build can also be found at ***http://127.0.0.1:8000/***
+for the application. If the backend server is running the production build can also be found at ***http://141.219.232.222:8000/***
 
 ### Filling in Backend information
 
 In order to levarage the backend both applications must be run concurrently after starting the backend server
 and the frontend development environement live updates should work at **http://localhost:3000\***<br/>
-(NOTE ***http://127.0.0.1:8000/*** WILL SHOW THE PRODUCTION APPLICATION AND LIVE EDITS DO NOT WORK)
+(NOTE ***http://141.219.232.222:8000/*** WILL SHOW THE PRODUCTION APPLICATION AND LIVE EDITS DO NOT WORK)
 
 ### Testing
 
